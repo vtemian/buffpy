@@ -17,3 +17,12 @@ class API(OAuth2Session):
     response = super(OAuth2Session, self).get(url=BASE_URL % url)
 
     return parser(response.content)
+
+  def post(self, url, params):
+    pass
+
+  def put(self, url, params):
+    pass
+
+  def delete(self, url, params):
+    pass
