@@ -10,10 +10,10 @@ class API(OAuth2Session):
     operations with the buffer app
   '''
 
-  def get(self, url):
+  def get(self, url, parser):
     if not self.access_token:
       raise ValueError('Please set an access token first!')
 
     response = super(OAuth2Session, self).get(url=BASE_URL % url)
 
-    return json.loads(response.content)
+    return parser(response.content)
