@@ -1,3 +1,5 @@
+import json
+
 from rauth import OAuth2Session
 
 BASE_URL = 'https://api.bufferapp.com/1/%s'
@@ -12,4 +14,6 @@ class API(OAuth2Session):
     if not self.access_token:
       raise ValueError('Please set an access token first!')
 
-    return super(OAuth2Session, self).get(url=BASE_URL % url)
+    response = super(OAuth2Session, self).get(url=BASE_URL % url)
+
+    return json.loads(response.content)
