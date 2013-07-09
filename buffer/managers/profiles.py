@@ -3,6 +3,11 @@ import json
 from buffer.models.profile import PATHS, Profile
 
 class Profiles(list):
+  '''
+    Manage profiles
+      + all     -> get all the profiles from buffer
+      + filter  -> wrapper for list filtering
+  '''
 
   def __init__(self, api, *args, **kwargs):
     super(Profiles, self).__init__(*args, **kwargs)
@@ -10,6 +15,10 @@ class Profiles(list):
     self.api = api
 
   def all(self):
+    '''
+      Get all network profiles
+    '''
+
     response = self.api.get(url=PATHS['GET_PROFILES'], parser=json.loads)
 
     for raw_profile in response:
@@ -18,6 +27,12 @@ class Profiles(list):
     return self
 
   def filter(self, **kwargs):
+    '''
+      Based on some criteria, filter the profiles and return a new Profiles
+      Manager containing only the chosen items
+
+      If the manager doen't have any items, get all the profiles from Buffer
+    '''
 
     if not len(self):
       self.all()
