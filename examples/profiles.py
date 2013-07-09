@@ -30,6 +30,6 @@ api = API(client_id='51cc6dd5f882a8ba18000055',
 profile = Profiles(api=api).filter(service='twitter')[0]
 
 profile.schedules = {
-  'days': ['mon', 'tue', 'thu'],
-  'times': ['00:45']
+  'days': ['tue', 'thu'],
+  'times': ['13:45']
 }
