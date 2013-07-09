@@ -26,6 +26,18 @@ class Profile(ResponseObject):
     if hasattr(self, "_get_%s" % name):
       return getattr(self, "_get_%s" % name)()
 
+  def _post_schedules(self, schedules):
+    url = PATHS['UPDATE_SCHEDULES'] % self.id
+
+    data_format = "schedules[0][%s][]=%s&"
+    post_data = ""
+
+    for format_type, values in schedules.iteritems():
+      for value in values:
+        post_data += data_format % (format_type, value)
+
+    self.api.post(url=url, parser=json.loads, data=post_data)
+
   def _get_schedules(self):
     url = PATHS['GET_SCHEDULES'] % self.id
 
