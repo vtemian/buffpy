@@ -15,18 +15,18 @@ class Profile(ResponseObject):
     super(Profile, self).__init__(raw_response)
 
     self.api = api
+    self.__schedules = None
 
-  def __getattr__(self, name):
-    if callable(name):
-      name()
+  @property
+  def schedules(self):
+    url = PATHS['GET_SCHEDULES'] % self.id
 
-    if hasattr(self, name):
-      return getattr(self, name)
+    self.__schedules = self.api.get(url=url, parser=json.loads)
 
-    if hasattr(self, "_get_%s" % name):
-      return getattr(self, "_get_%s" % name)()
+    return self.__schedules
 
-  def _post_schedules(self, schedules):
+  @schedules.setter
+  def schedules(self, schedules):
     url = PATHS['UPDATE_SCHEDULES'] % self.id
 
     data_format = "schedules[0][%s][]=%s&"
@@ -37,10 +37,3 @@ class Profile(ResponseObject):
         post_data += data_format % (format_type, value)
 
     self.api.post(url=url, parser=json.loads, data=post_data)
-
-  def _get_schedules(self):
-    url = PATHS['GET_SCHEDULES'] % self.id
-
-    self.schedules = self.api.get(url=url, parser=json.loads)
-
-    return self.schedules
