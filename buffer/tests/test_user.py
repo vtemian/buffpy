@@ -11,10 +11,12 @@ def test_simple_user_request():
   '''
 
   mocked_api = MagicMock()
-  mocked_api.get.return_value = {
+  mocked_response =  {
     "key": "value"
   }
+  mocked_api.get.return_value = mocked_response
 
   with patch('buffer.user.ResponseObject') as mocked_response:
     User(api=mocked_api)
 
+    mocked_api.get.assert_called_once_with(url='user.json', parser=json.loads)
