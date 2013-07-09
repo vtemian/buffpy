@@ -15,10 +15,14 @@ api = API(client_id='51cc6dd5f882a8ba18000055',
           access_token=token)
 
 # get all profiles 
-profiles = Profiles(api=api).all()
-print profiles
+#profiles = Profiles(api=api)
+#print profiles.all()
 
-#profile = Profile(id='asd')
+# filter profiles using some criteria
+#profile = Profiles(api=api).filter(service='twitter')[0]
+#print profile
 
-#print profile.schedules
-#profile.schedules = 'bla bla'
+# get schedules of my twitter profile
+profile = Profiles(api=api).filter(service='twitter')[0]
+print profile.schedules
+
