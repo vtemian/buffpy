@@ -23,6 +23,13 @@ api = API(client_id='51cc6dd5f882a8ba18000055',
 #print profile
 
 # get schedules of my twitter profile
-profile = Profiles(api=api).filter(service='twitter')[0]
-print profile.schedules
+#profile = Profiles(api=api).filter(service='twitter')[0]
+#print profile.schedules
 
+# update schedules times for my twitter profile
+profile = Profiles(api=api).filter(service='twitter')[0]
+
+profile.schedules = {
+  'days': ['mon', 'tue', 'thu'],
+  'times': ['00:45']
+}
