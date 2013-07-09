@@ -5,10 +5,10 @@ from buffer.models.profile import PATHS, Profile
 class Profiles(list):
 
   def __init__(self, api, *args, **kwargs):
+    super(Profiles, self).__init__(*args, **kwargs)
+
     self.api = api
 
-    super(Profiles, self).__init__(*args, **kwargs)
-  
   def all(self):
     response = self.api.get(url=PATHS['GET_PROFILES'], parser=json.loads)
 
@@ -18,6 +18,7 @@ class Profiles(list):
     return self
 
   def filter(self, **kwargs):
+
     if not len(self):
       self.all()
 
