@@ -12,6 +12,23 @@ PATHS = {
 class Profile(ResponseObject):
 
   def __init__(self, api, raw_response):
+    super(Profile, self).__init__(raw_response)
+
     self.api = api
 
-    super(Profile, self).__init__(raw_response)
+  def __getattr__(self, name):
+    if callable(name):
+      name()
+
+    if hasattr(self, name):
+      return getattr(self, name)
+
+    if hasattr(self, "_get_%s" % name):
+      return getattr(self, "_get_%s" % name)()
+
+  def _get_schedules(self):
+    url = PATHS['GET_SCHEDULES'] % self.id
+
+    self.schedules = self.api.get(url=url, parser=json.loads)
+
+    return self.schedules
