@@ -18,10 +18,10 @@ class API(OAuth2Session):
 
     return parser(response.content)
 
-  def post(self, url, params):
+  def post(self, url, params, parser):
     pass
 
-  def put(self, url, params):
+  def put(self, url, params, parser):
     pass
 
   def delete(self, url, params):
