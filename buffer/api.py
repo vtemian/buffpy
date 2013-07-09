@@ -18,8 +18,15 @@ class API(OAuth2Session):
 
     return parser(response.content)
 
-  def post(self, url, params, parser):
-    pass
+  def post(self, url, parser=None, **params):
+    if not self.access_token:
+      raise ValueError('Please set an access token first!')
+
+    headers = {'Content-Type':'application/x-www-form-urlencoded'}
+
+    response = super(OAuth2Session, self).post(url=BASE_URL % url, headers=headers, **params)
+
+    return parser(response.content)
 
   def put(self, url, params, parser):
     pass
