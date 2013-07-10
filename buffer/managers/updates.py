@@ -3,6 +3,7 @@ from buffer.models.update import Update
 PATHS = {
   'GET_PENDING': 'profiles/%s/updates/pending.json',
   'GET_SENT': 'profiles/%s/updates/sent.json',
+  'SHUFFLE': 'profiles/%s/updates/shuffle.json',
 }
 
 class Updates(list):
@@ -16,6 +17,11 @@ class Updates(list):
 
   @property
   def pending(self):
+    '''
+      Returns an array of updates that are currently in the buffer for an
+      individual social media profile.
+    '''
+
     pending_updates = []
     url = PATHS['GET_PENDING'] % self.profile_id
 
@@ -29,6 +35,11 @@ class Updates(list):
 
   @property
   def sent(self):
+    '''
+      Returns an array of updates that have been sent from the buffer for an
+      individual social media profile.
+    '''
+
     sent_updates = []
     url = PATHS['GET_SENT'] % self.profile_id
 
@@ -39,3 +50,19 @@ class Updates(list):
     self.__sent = sent_updates
 
     return self.__sent
+
+  def shuffle(self, count=None, utc=None):
+    '''
+      Randomize the order at which statuses for the specified social media
+      profile will be sent out of the buffer.
+    '''
+
+    url = PATHS['SHUFFLE'] % self.profile_id
+
+    post_data = ''
+    if count:
+      post_data += 'count=%s&' % count
+    if utc:
+      post_data += 'utc=%s' % utc
+
+    return self.api.post(url=url, data=post_data)
