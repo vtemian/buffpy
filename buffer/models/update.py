@@ -19,6 +19,11 @@ class Update(ResponseObject):
 
   @property
   def interactions(self):
+    '''
+      Returns the detailed information on individual interactions with the social
+      media update such as favorites, retweets and likes.
+    '''
+
     interactions = []
     url = PATHS['GET_INTERACTIONS'] % self.id
 
