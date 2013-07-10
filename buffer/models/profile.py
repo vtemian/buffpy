@@ -1,4 +1,5 @@
 from buffer.response import ResponseObject
+from buffer.managers.updates import Updates
 
 PATHS = {
   'GET_PROFILES': 'profiles.json',
@@ -35,3 +36,7 @@ class Profile(ResponseObject):
         post_data += data_format % (format_type, value)
 
     self.api.post(url=url, data=post_data)
+
+  @property
+  def updates(self):
+    return Updates(api=self.api, profile_id=self.id)
