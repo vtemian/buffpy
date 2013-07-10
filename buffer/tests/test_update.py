@@ -22,7 +22,7 @@ def test_update_retrieving():
   eq_(update.api, mocked_api)
   eq_(update.text, 'me')
 
-def test_udpate_interactions():
+def test_update_interactions():
   '''
     Test basic analytics retrieving
   '''
