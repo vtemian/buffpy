@@ -29,7 +29,7 @@ class Update(ResponseObject):
 
     response = self.api.get(url=url)
     for interaction in response['interactions']:
-      interactions.append(RawObject(interaction))
+      interactions.append(ResponseObject(interaction))
 
     self.__interactions = interactions
 
