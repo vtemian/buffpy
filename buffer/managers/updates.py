@@ -17,7 +17,7 @@ class Updates(list):
   @property
   def pending(self):
     pending_updates = []
-    url = paths['get_pending'] % self.profile_id
+    url = PATHS['GET_PENDING'] % self.profile_id
 
     response = self.api.get(url=url)
     for update in response['updates']:
@@ -29,10 +29,13 @@ class Updates(list):
 
   @property
   def sent(self):
+    sent_updates = []
     url = PATHS['GET_SENT'] % self.profile_id
 
     response = self.api.get(url=url)
     for update in response['updates']:
-      self.append(Update(api=self.api, raw_response=update))
+      sent_updates.append(Update(api=self.api, raw_response=update))
 
-    return self
+    self.__sent = sent_updates
+
+    return self.__sent

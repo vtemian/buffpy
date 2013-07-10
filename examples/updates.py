@@ -19,6 +19,10 @@ api = API(client_id='51cc6dd5f882a8ba18000055',
 #update = Update(api=api, id='51dd27629f7fdf520d00009a')
 #print update
 
-# get all the pending updates of a social network profile
+# get all pending updates of a social network profile
+#profile = Profiles(api=api).filter(service='twitter')[0]
+#print profile.updates.pending
+
+# get all sent updates of a social network profile
 profile = Profiles(api=api).filter(service='twitter')[0]
-print profile.updates.pending
+print profile.updates.sent
