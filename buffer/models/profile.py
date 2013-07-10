@@ -1,5 +1,3 @@
-import json
-
 from buffer.response import ResponseObject
 
 PATHS = {
@@ -21,7 +19,7 @@ class Profile(ResponseObject):
   def schedules(self):
     url = PATHS['GET_SCHEDULES'] % self.id
 
-    self.__schedules = self.api.get(url=url, parser=json.loads)
+    self.__schedules = self.api.get(url=url)
 
     return self.__schedules
 
@@ -36,4 +34,4 @@ class Profile(ResponseObject):
       for value in values:
         post_data += data_format % (format_type, value)
 
-    self.api.post(url=url, parser=json.loads, data=post_data)
+    self.api.post(url=url, data=post_data)

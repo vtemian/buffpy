@@ -6,11 +6,14 @@ BASE_URL = 'https://api.bufferapp.com/1/%s'
 
 class API(OAuth2Session):
   '''
-    Small and clean class that embrace all basic 
+    Small and clean class that embrace all basic
     operations with the buffer app
   '''
 
-  def get(self, url, parser):
+  def get(self, url, parser=None):
+    if parser == None:
+      parser = json.loads
+
     if not self.access_token:
       raise ValueError('Please set an access token first!')
 
@@ -19,6 +22,9 @@ class API(OAuth2Session):
     return parser(response.content)
 
   def post(self, url, parser=None, **params):
+    if parser == None:
+      parser = json.loads
+
     if not self.access_token:
       raise ValueError('Please set an access token first!')
 
@@ -28,7 +34,10 @@ class API(OAuth2Session):
 
     return parser(response.content)
 
-  def put(self, url, params, parser):
+  def put(self, url, params, parser=None):
+    if parser == None:
+      parser = json.loads
+
     pass
 
   def delete(self, url, params):

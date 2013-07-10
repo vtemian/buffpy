@@ -22,7 +22,7 @@ def test_profile_schedules_getter():
   profile = Profile(mocked_api, mocked_response)
 
   eq_(profile.schedules, '123')
-  mocked_api.get.assert_called_once_with(url = PATHS['GET_SCHEDULES'] % 1, parser=json.loads)
+  mocked_api.get.assert_called_once_with(url = PATHS['GET_SCHEDULES'] % 1)
 
 def test_profile_schedules_setter():
   '''
@@ -39,4 +39,4 @@ def test_profile_schedules_setter():
   }
 
   mocked_api.post.assert_called_once_with(url=PATHS['UPDATE_SCHEDULES'] % 1,
-      parser=json.loads, data='schedules[0][times][]=mo&')
+      data='schedules[0][times][]=mo&')

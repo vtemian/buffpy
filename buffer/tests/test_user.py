@@ -19,4 +19,4 @@ def test_simple_user_request():
   with patch('buffer.user.ResponseObject') as mocked_response:
     User(api=mocked_api)
 
-    mocked_api.get.assert_called_once_with(url='user.json', parser=json.loads)
+    mocked_api.get.assert_called_once_with(url='user.json')

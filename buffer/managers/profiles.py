@@ -1,5 +1,3 @@
-import json
-
 from buffer.models.profile import PATHS, Profile
 
 class Profiles(list):
@@ -16,10 +14,10 @@ class Profiles(list):
 
   def all(self):
     '''
-      Get all network profiles
+      Get all social newtworks profiles
     '''
 
-    response = self.api.get(url=PATHS['GET_PROFILES'], parser=json.loads)
+    response = self.api.get(url=PATHS['GET_PROFILES'])
 
     for raw_profile in response:
       self.append(Profile(self.api, raw_profile))

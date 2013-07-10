@@ -26,6 +26,5 @@ def test_profiles_manager_all_method():
     profiles = Profiles(api=mocked_api).all()
 
     eq_(profiles, [1])
-    mocked_api.get.assert_called_once_with(url=PATHS['GET_PROFILES'],
-        parser=json.loads)
+    mocked_api.get.assert_called_once_with(url=PATHS['GET_PROFILES'])
     mocked_profile.assert_called_once_with(mocked_api, {'a': 'b'})
