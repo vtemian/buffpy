@@ -4,6 +4,7 @@ from colorama import Fore
 
 from buffer.models.update import Update
 from buffer.managers.profiles import Profiles
+from buffer.managers.updates import Updates
 from buffer.api import API
 
 # check http://bufferapp.com/developers/apps to retrieve a token
@@ -21,8 +22,24 @@ api = API(client_id='51cc6dd5f882a8ba18000055',
 
 # get all pending updates of a social network profile
 #profile = Profiles(api=api).filter(service='twitter')[0]
-#print profile.updates.pending
+#print profile.updates.status.pending
 
 # get all sent updates of a social network profile
+#profile = Profiles(api=api).filter(service='twitter')[0]
+#print profile.updates.sent
+
+# retrieve all update's interactions
+#profile = Profiles(api=api).filter(service='twitter')[0]
+#print profile.updates.sent[0].interactions
+
+# shuffle
+#profile = Profiles(api=api).filter(service='twitter')[0]
+#print profile.updates.shuffle(count=10)
+
+# reorder
+#profile = Profiles(api=api).filter(service='twitter')[0]
+#print profile.updates.reorder(['51dd27629f7fdf520d00009a'])
+
+# create
 profile = Profiles(api=api).filter(service='twitter')[0]
-print profile.updates.sent
+print profile.updates.new("Testing", now=True)

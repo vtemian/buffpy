@@ -5,6 +5,7 @@ PATHS = {
   'GET_SENT': 'profiles/%s/updates/sent.json',
   'SHUFFLE': 'profiles/%s/updates/shuffle.json',
   'REORDER': 'profiles/%s/updates/reorder.json',
+  'CREATE': 'updates/create.json',
 }
 
 class Updates(list):
@@ -87,5 +88,33 @@ class Updates(list):
 
     for update in updates_ids:
       post_data += order_format % update
+
+    return self.api.post(url=url, data=post_data)
+
+  #TODO: Multiple profile posting
+  def new(self, text, shorten=None, now=None, top=None, media=None):
+    '''
+      Create one or more new status updates.
+    '''
+
+    url = PATHS['CREATE']
+
+    post_data = "text=%s&" % text
+    post_data += "profile_ids[]=%s&" % self.profile_id
+
+    if shorten:
+      post_data += "shorten=%s&" % shorten
+
+    if now:
+      post_data += "now=%s&" % now
+
+    if top:
+      post_data += "top=%s&" % top
+
+    if media:
+      media_format = "media[%s]=%s&"
+
+      for media_type, media_item in media.iteritems:
+        post_data += media_format % (media_type, media_item)
 
     return self.api.post(url=url, data=post_data)
