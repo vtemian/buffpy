@@ -21,4 +21,3 @@ def test_reponse_check_for_inception():
   eq_(response.key3, 'value3')
   eq_(response.second_dict, {'key2': 'value2'})
   eq_(response.second_dict.key2, 'value2')
-

@@ -27,6 +27,3 @@ class ResponseObject(dict):
           root_dict[key] = ResponseObject(root_dict[key])
 
     return root_dict
-
-  def set_for(self, cls):
-    cls.__dict__ = self.__dict__
