@@ -34,3 +34,23 @@ def test_update_interactions():
 
   eq_(update.interactions, [{'replies': 3}])
   mocked_api.get.assert_called_once_with(url='updates/1/interactions.json')
+
+def test_update_edit():
+  '''
+    Test basic update editing
+  '''
+
+  mocked_api = MagicMock()
+  mocked_api.post.return_value = {
+      'update': {'id': 1, 'text': 'hey!'}
+  }
+
+  update = Update(mocked_api, raw_response={'id':1, 'text': 'ola!'})
+  new_update = update.edit(text='hey!')
+
+  assert_update = Update(mocked_api, raw_response={'id':1, 'text': 'hey!'})
+
+  post_data = 'text=hey!&'
+  mocked_api.post.assert_called_once_with(url='updates/1/update.json',
+      data=post_data)
+  eq_(new_update, assert_update)
