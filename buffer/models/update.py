@@ -4,7 +4,8 @@ PATHS = {
   'GET_UPDATE': 'updates/%s.json',
   'GET_INTERACTIONS': 'updates/%s/interactions.json',
   'EDIT': 'updates/%s/update.json',
-  'NOW': 'updates/%s/share.json',
+  'PUBLISH': 'updates/%s/share.json',
+  'DELETE': 'updates/%s/destroy.json',
 }
 
 class Update(ResponseObject):
@@ -67,5 +68,13 @@ class Update(ResponseObject):
       updates remaining in the queue.
     '''
 
-    url = PATHS['NOW'] % self.id
+    url = PATHS['PUBLISH'] % self.id
+    return self.api.post(url=url)
+
+  def delete(self):
+    '''
+      Permanently delete an existing status update.
+    '''
+
+    url = PATHS['DELETE'] % self.id
     return self.api.post(url=url)
