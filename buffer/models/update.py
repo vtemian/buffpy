@@ -60,8 +60,9 @@ class Update(ResponseObject):
       for media_type, media_item in media.iteritems():
         post_data += media_format % (media_type, media_item)
 
-    return Update(api=self.api, raw_response=self.api.post(url=url,
-      data=post_data)['update'])
+    response = self.api.post(url=url, data=post_data)
+
+    return Update(api=self.api, raw_response=response['update'])
 
   def publish(self):
     '''
