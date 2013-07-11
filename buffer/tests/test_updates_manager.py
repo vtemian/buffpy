@@ -51,6 +51,19 @@ def test_udpates_manager_suffle():
 
   updates = Updates(api=mocked_api, profile_id=1).shuffle()
 
-  mocked_api.post.assert_called_once_with(url='profiles/1/updates/shuffle.json',
-      data='')
+  mocked_api.post.assert_called_once_with(url='profiles/1/updates/shuffle.json', data='')
   eq_(updates, True)
+
+def test_updates_manager_reorder():
+  '''
+    Test basic updates reorder
+  '''
+
+  mocked_api = MagicMock()
+  mocked_api.post.return_value = True
+
+  updates = Updates(api=mocked_api, profile_id=1).reorder([1, 2])
+
+  data = "order[]=1&order[]=2&"
+  mocked_api.post.assert_called_once_with(url='profiles/1/updates/reorder.json',
+      data=data)
