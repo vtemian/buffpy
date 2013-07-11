@@ -6,6 +6,7 @@ PATHS = {
   'EDIT': 'updates/%s/update.json',
   'PUBLISH': 'updates/%s/share.json',
   'DELETE': 'updates/%s/destroy.json',
+  'MOVE_TO_TOP': 'updates/%s/move_to_top.json',
 }
 
 class Update(ResponseObject):
@@ -78,3 +79,15 @@ class Update(ResponseObject):
 
     url = PATHS['DELETE'] % self.id
     return self.api.post(url=url)
+
+  def move_to_top(self):
+    '''
+      Move an existing status update to the top of the queue and recalculate
+      times for all updates in the queue. Returns the update with its new
+      posting time.
+    '''
+
+    url = PATHS['MOVE_TO_TOP'] % self.id
+
+    response = self.api.post(url=url)
+    return Update(api=self.api, raw_response=response)
