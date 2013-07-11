@@ -33,12 +33,3 @@ class API(OAuth2Session):
     response = super(OAuth2Session, self).post(url=BASE_URL % url, headers=headers, **params)
 
     return parser(response.content)
-
-  def put(self, url, params, parser=None):
-    if parser == None:
-      parser = json.loads
-
-    pass
-
-  def delete(self, url, params):
-    pass
