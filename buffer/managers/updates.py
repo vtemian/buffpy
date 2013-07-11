@@ -92,6 +92,8 @@ class Updates(list):
     return self.api.post(url=url, data=post_data)
 
   #TODO: Multiple profile posting
+  #TODO: Return a new update
+  #TODO: Append the update to updates
   def new(self, text, shorten=None, now=None, top=None, media=None):
     '''
       Create one or more new status updates.
@@ -114,7 +116,7 @@ class Updates(list):
     if media:
       media_format = "media[%s]=%s&"
 
-      for media_type, media_item in media.iteritems:
+      for media_type, media_item in media.iteritems():
         post_data += media_format % (media_type, media_item)
 
     return self.api.post(url=url, data=post_data)

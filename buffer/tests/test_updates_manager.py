@@ -96,3 +96,15 @@ def test_updates_manager_reorder_with_params():
   data = "offset=10&utc=hey&order[]=1&order[]=2&"
   mocked_api.post.assert_called_once_with(url='profiles/1/updates/reorder.json',
       data=data)
+
+def test_updates_manager_new_update():
+  '''
+    Test update creation
+  '''
+
+  mocked_api = MagicMock()
+
+  update = Updates(api=mocked_api, profile_id=1).new("hey")
+
+  data = "text=hey&profile_ids[]=1&"
+  mocked_api.post.assert_called_once_with(url='updates/create.json', data=data)
