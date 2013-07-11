@@ -75,4 +75,15 @@ def test_update_edit_params():
       data=post_data)
   eq_(new_update, assert_update)
 
+def test_udpate_publishing():
+  '''
+    Test basic update publishing
+  '''
 
+  mocked_api = MagicMock()
+  mocked_api.post.return_value = True
+
+  response = Update(api=mocked_api, raw_response={'id': 1}).publish()
+
+  mocked_api.post.assert_called_once_with(url="updates/1/share.json")
+  eq_(response, True)
