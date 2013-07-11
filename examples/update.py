@@ -30,7 +30,7 @@ update = update.edit(text="Hey!")
 update.publish()
 
 # move to top
-update.move_to_top
+update.move_to_top()
 
 # delete
 update.delete()
