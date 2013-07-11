@@ -3,6 +3,7 @@ from buffer.response import ResponseObject
 PATHS = {
   'GET_UPDATE': 'updates/%s.json',
   'GET_INTERACTIONS': 'updates/%s/interactions.json',
+  'EDIT': 'updates/%s/update.json',
 }
 
 class Update(ResponseObject):
@@ -34,3 +35,27 @@ class Update(ResponseObject):
     self.__interactions = interactions
 
     return self.__interactions
+
+  def edit(self, text, media=None, utc=None, now=None):
+    '''
+      Modify the content of an update
+    '''
+
+    url = PATHS['EDIT'] % self.id
+
+    post_data = "text=%s&" % text
+
+    if now:
+      post_data += "now=%s&" % now
+
+    if utc:
+      post_data += "utc=%s&" % utc
+
+    if media:
+      media_format = "media[%s]=%s&"
+
+      for media_type, media_item in media.iteritems():
+        post_data += media_format % (media_type, media_item)
+
+    return Update(api=self.api, raw_response=self.api.post(url=url,
+      data=post_data)['update'])
