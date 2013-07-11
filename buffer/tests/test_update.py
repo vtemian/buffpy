@@ -100,3 +100,16 @@ def test_update_deleting():
 
   mocked_api.post.assert_called_once_with(url='updates/1/destroy.json')
   eq_(response, True)
+
+def test_update_move_to_top():
+  '''
+    Test move_to_top implementation
+  '''
+
+  mocked_api = MagicMock()
+  mocked_api.post.return_value = {'id': 1, 'text': 'hey'}
+
+  response = Update(api=mocked_api, raw_response={'id': 1}).move_to_top()
+
+  mocked_api.post.assert_called_once_with(url='updates/1/move_to_top.json')
+  eq_(response.text, 'hey')
