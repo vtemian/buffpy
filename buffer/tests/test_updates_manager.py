@@ -82,3 +82,17 @@ def test_updates_manager_reorder():
   data = "order[]=1&order[]=2&"
   mocked_api.post.assert_called_once_with(url='profiles/1/updates/reorder.json',
       data=data)
+
+def test_updates_manager_reorder_with_params():
+  '''
+    Test basic updates reorder with params
+  '''
+
+  mocked_api = MagicMock()
+  mocked_api.post.return_value = True
+
+  updates = Updates(api=mocked_api, profile_id=1).reorder([1, 2], 10, 'hey')
+
+  data = "offset=10&utc=hey&order[]=1&order[]=2&"
+  mocked_api.post.assert_called_once_with(url='profiles/1/updates/reorder.json',
+      data=data)
