@@ -4,6 +4,7 @@ PATHS = {
   'GET_UPDATE': 'updates/%s.json',
   'GET_INTERACTIONS': 'updates/%s/interactions.json',
   'EDIT': 'updates/%s/update.json',
+  'NOW': 'updates/%s/share.json',
 }
 
 class Update(ResponseObject):
@@ -38,7 +39,7 @@ class Update(ResponseObject):
 
   def edit(self, text, media=None, utc=None, now=None):
     '''
-      Modify the content of an update
+      Edit an existing, individual status update.
     '''
 
     url = PATHS['EDIT'] % self.id
@@ -59,3 +60,12 @@ class Update(ResponseObject):
 
     return Update(api=self.api, raw_response=self.api.post(url=url,
       data=post_data)['update'])
+
+  def publish(self):
+    '''
+      Immediately shares a single pending update and recalculates times for
+      updates remaining in the queue.
+    '''
+
+    url = PATHS['NOW'] % self.id
+    return self.api.post(url=url)
