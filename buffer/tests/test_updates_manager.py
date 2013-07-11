@@ -40,3 +40,17 @@ def test_udpates_manager_sent():
 
   mocked_api.get.assert_called_once_with(url='profiles/1/updates/sent.json')
   eq_(sent, [assert_update])
+
+def test_udpates_manager_suffle():
+  '''
+    Test basic updates shuffle
+  '''
+
+  mocked_api = MagicMock()
+  mocked_api.post.return_value = True
+
+  updates = Updates(api=mocked_api, profile_id=1).shuffle()
+
+  mocked_api.post.assert_called_once_with(url='profiles/1/updates/shuffle.json',
+      data='')
+  eq_(updates, True)
