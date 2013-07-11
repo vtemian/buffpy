@@ -108,3 +108,26 @@ def test_updates_manager_new_update():
 
   data = "text=hey&profile_ids[]=1&"
   mocked_api.post.assert_called_once_with(url='updates/create.json', data=data)
+
+def test_updates_manager_new_update_all_params():
+  '''
+    Test update creation with all params
+  '''
+
+  mocked_api = MagicMock()
+
+  raw_update = {
+    'text': 'hey',
+    'shorten': True,
+    'now': True,
+    'top': True,
+    'media': {
+      'link': 'www.google.com',
+      'photo': 'www.google.ro'
+    }
+  }
+  update = Updates(api=mocked_api, profile_id=1).new(**raw_update)
+
+  data = "text=hey&profile_ids[]=1&shorten=True&now=True&top=True&"+\
+          "media[photo]=www.google.ro&media[link]=www.google.com&"
+  mocked_api.post.assert_called_once_with(url='updates/create.json', data=data)
