@@ -2,7 +2,12 @@ import json
 
 from rauth import OAuth2Session
 
+from buffer.response import ResponseObject
+
 BASE_URL = 'https://api.bufferapp.com/1/%s'
+PATHS = {
+  'INFO': 'info/configuration.json'
+}
 
 class API(OAuth2Session):
   '''
@@ -33,3 +38,18 @@ class API(OAuth2Session):
     response = super(OAuth2Session, self).post(url=BASE_URL % url, headers=headers, **params)
 
     return parser(response.content)
+
+  @property
+  def info(self):
+    '''
+      Returns an object with the current configuration that Buffer is using,
+      including supported services, their icons and the varying limits of
+      character and schedules.
+
+      The services keys map directly to those on profiles and updates so that
+      you can easily show the correct icon or calculate the correct character
+      length for an update.
+    '''
+
+    response = self.get(url=PATHS['INFO'])
+    return ResponseObject(response)
