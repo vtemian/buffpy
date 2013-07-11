@@ -29,7 +29,7 @@ class Updates(list):
 
     response = self.api.get(url=url)
     for update in response['updates']:
-      pending_updates.append(update(api=self.api, raw_response=update))
+      pending_updates.append(Update(api=self.api, raw_response=update))
 
     self.__pending = pending_updates
 
