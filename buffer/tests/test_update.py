@@ -87,3 +87,16 @@ def test_udpate_publishing():
 
   mocked_api.post.assert_called_once_with(url="updates/1/share.json")
   eq_(response, True)
+
+def test_update_deleting():
+  '''
+    Test update's deleting
+  '''
+
+  mocked_api = MagicMock()
+  mocked_api.post.return_value = True
+
+  response = Update(api=mocked_api, raw_response={'id': 1}).delete()
+
+  mocked_api.post.assert_called_once_with(url='updates/1/destroy.json')
+  eq_(response, True)
