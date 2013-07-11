@@ -40,3 +40,16 @@ def test_profile_schedules_setter():
 
   mocked_api.post.assert_called_once_with(url=PATHS['UPDATE_SCHEDULES'] % 1,
       data='schedules[0][times][]=mo&')
+
+def test_profile_updates():
+  '''
+    Test updates relationship with a profile
+  '''
+
+  mocked_api = MagicMock()
+
+  with patch('buffer.models.profile.Updates') as mocked_updates:
+    profile = Profile(api=mocked_api, raw_response={'id': 1})
+    updates = profile.updates
+
+    mocked_updates.assert_called_once_with(api=mocked_api, profile_id=1)
