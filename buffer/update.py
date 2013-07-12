@@ -1,2 +1,0 @@
-class Update(object):
-  pass
