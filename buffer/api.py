@@ -9,20 +9,25 @@ PATHS = {
   'INFO': 'info/configuration.json'
 }
 
-class API(OAuth2Session):
+class API(object):
   '''
     Small and clean class that embrace all basic
     operations with the buffer app
   '''
 
+  def __init__(self, client_id, client_secret, access_token=None):
+    self.session = OAuth2Session( client_id=client_id,
+                                  client_secret=client_secret,
+                                  access_token=access_token)
+
   def get(self, url, parser=None):
     if parser == None:
       parser = json.loads
 
-    if not self.access_token:
+    if not self.session.access_token:
       raise ValueError('Please set an access token first!')
 
-    response = super(OAuth2Session, self).get(url=BASE_URL % url)
+    response = self.session.get(url=BASE_URL % url)
 
     return parser(response.content)
 
@@ -30,12 +35,12 @@ class API(OAuth2Session):
     if parser == None:
       parser = json.loads
 
-    if not self.access_token:
+    if not self.session.access_token:
       raise ValueError('Please set an access token first!')
 
     headers = {'Content-Type':'application/x-www-form-urlencoded'}
 
-    response = super(OAuth2Session, self).post(url=BASE_URL % url, headers=headers, **params)
+    response = self.session.post(url=BASE_URL % url, headers=headers, **params)
 
     return parser(response.content)
 
