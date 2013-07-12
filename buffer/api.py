@@ -20,6 +20,14 @@ class API(object):
                                   client_secret=client_secret,
                                   access_token=access_token)
 
+  @property
+  def access_token(self):
+    return self.session.access_token
+
+  @access_token.setter
+  def access_token(self, value):
+    self.session.access_token = value
+
   def get(self, url, parser=None):
     if parser == None:
       parser = json.loads
