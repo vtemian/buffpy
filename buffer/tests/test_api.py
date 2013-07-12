@@ -24,6 +24,21 @@ def test_api_get_request():
 
     mocked_session.get.assert_called_once_with(url='https://api.bufferapp.com/1/hey')
 
+@raises(ValueError)
+def test_api_get_request_no_access_token():
+  '''
+    Test simply api get request without access_token
+  '''
+
+  with patch('buffer.api.OAuth2Session') as mocked_oauth2:
+    mocked_session = MagicMock()
+    mocked_session.access_token = None
+
+    mocked_oauth2.return_value = mocked_session
+
+    api = API(client_id='1', client_secret='2')
+    api.get(url="hey")
+
 def test_api_post_request():
   '''
     Test simply api post request
