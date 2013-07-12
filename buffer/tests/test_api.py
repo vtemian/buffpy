@@ -59,3 +59,19 @@ def test_api_post_request():
     headers = {'Content-Type':'application/x-www-form-urlencoded'}
     mocked_session.post.assert_called_once_with(
         url='https://api.bufferapp.com/1/hey', headers=headers, data='new=True')
+
+@raises(ValueError)
+def test_api_post_request_no_access_token():
+  '''
+    Test simply api post request without access_token
+  '''
+
+  with patch('buffer.api.OAuth2Session') as mocked_oauth2:
+    mocked_session = MagicMock()
+
+    mocked_session.access_token = None
+
+    mocked_oauth2.return_value = mocked_session
+
+    api = API(client_id='1', client_secret='2', access_token='access_token')
+    api.post(url='hey', data='new=True')
