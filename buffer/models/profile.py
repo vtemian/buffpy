@@ -9,6 +9,9 @@ PATHS = {
 }
 
 class Profile(ResponseObject):
+  '''
+    A Buffer profile represents a connection to a single social media account.
+  '''
 
   def __init__(self, api, raw_response):
     super(Profile, self).__init__(raw_response)
