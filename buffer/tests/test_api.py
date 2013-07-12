@@ -75,3 +75,24 @@ def test_api_post_request_no_access_token():
 
     api = API(client_id='1', client_secret='2', access_token='access_token')
     api.post(url='hey', data='new=True')
+
+def test_api_info():
+  '''
+    Test simple configuration retrieving
+  '''
+
+  with patch('buffer.api.OAuth2Session') as mocked_oauth2:
+    mocked_session = MagicMock()
+
+    mocked_response = MagicMock()
+    mocked_response.content = json.dumps({'status': 'ok'})
+    mocked_session.get.return_value = mocked_response
+
+    mocked_oauth2.return_value = mocked_session
+
+    api = API(client_id='1', client_secret='2', access_token='access_token')
+    info = api.info
+
+    url = 'https://api.bufferapp.com/1/info/configuration.json'
+    mocked_session.get.assert_called_once_with(url=url)
+    eq_(info.status, 'ok')
