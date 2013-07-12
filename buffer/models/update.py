@@ -10,9 +10,12 @@ PATHS = {
 }
 
 class Update(ResponseObject):
+  '''
+    An update represents a single post to a single social media account. An
+    update can also include media attachments such as pictures and links.
+  '''
 
   def __init__(self, api, id=None, raw_response=None):
-
     if id and not raw_response:
       raw_response = api.get(url=PATHS['GET_UPDATE'] % id)
 
