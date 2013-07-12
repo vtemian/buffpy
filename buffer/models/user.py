@@ -1,4 +1,4 @@
-from response import ResponseObject
+from buffer.response import ResponseObject
 
 class User(ResponseObject):
   REQUEST_URL = 'user.json'

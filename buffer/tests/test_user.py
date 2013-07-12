@@ -3,7 +3,7 @@ import json
 from nose.tools import eq_, raises
 from mock import MagicMock, patch
 
-from buffer.user import User
+from buffer.models.user import User
 
 def test_simple_user_request():
   '''
