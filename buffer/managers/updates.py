@@ -9,6 +9,13 @@ PATHS = {
 }
 
 class Updates(list):
+  '''
+    Implenents all the profiles+updates logic.
+
+    + retrieve updates related to a profile
+    + create a new update
+    + reorder and shuffle updates
+  '''
 
   def __init__(self, api, profile_id):
     self.api = api
