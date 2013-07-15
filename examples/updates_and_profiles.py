@@ -33,4 +33,4 @@ print profile.updates.shuffle(count=10)
 print profile.updates.reorder(['51dd27629f7fdf520d00009a'])
 
 # create an update
-print profile.updates.new("Testing", now=True)
+print profile.updates.new("Hello there", now=True)
