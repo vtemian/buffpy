@@ -20,7 +20,7 @@ user.id     => '12455678976asd'
 user        => {...}
 ```
 
-If you want to see some complete examples, check [here](../blob/master/examples)
+If you want to see some complete examples, check [here](../master/examples)
 
 #### User
 ----------
