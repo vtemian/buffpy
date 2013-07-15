@@ -20,6 +20,8 @@ user.id     => '12455678976asd'
 user        => {...}
 ```
 
+If you want to see some complete examples, check [here](../blob/master/examples)
+
 #### User
 ----------
 A user represents a single Buffer user account.
@@ -51,7 +53,6 @@ profile = Profiles(api=api).filter(service='twitter')[0]
 print profile # my twitter profile
 
 # get schedules of my twitter profile
-profile = Profiles(api=api).filter(service='twitter')[0]
 print profile.schedules
 
 # update schedules times for my twitter profile
@@ -109,3 +110,26 @@ print profile.updates.reorder(['51dd27629f7fdf520d00009a'])
 # create an update
 print profile.updates.new("Hello there", now=True)
 ```
+
+#### Links
+----------
+A link represents a unique URL that has been shared through Buffer
+
+```python
+# get a link's shares
+print Link(api=api, url='http%3A%2F%2Fbufferapp.com').shares
+```
+
+#### Info
+---------
+Returns an object with the current configuration that Buffer is using,
+including supported services, their icons and the varying limits of character 
+and schedules.
+
+# instantiate the api object
+api = API(client_id='client_id',
+          client_secret='client_secret',
+          access_token='access_token')
+
+# get api's info
+print api.info
