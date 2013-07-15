@@ -103,11 +103,17 @@ def test_updates_manager_new_update():
   '''
 
   mocked_api = MagicMock()
+  mocked_api.post.return_value = {'updates': [{'text': 'hey'}]}
 
-  update = Updates(api=mocked_api, profile_id=1).new("hey")
+  updates = Updates(api=mocked_api, profile_id=1)
+  update = updates.new("hey")
 
   data = "text=hey&profile_ids[]=1&"
   mocked_api.post.assert_called_once_with(url='updates/create.json', data=data)
+
+  assert_update = Update(api=mocked_api, raw_response={'text': 'hey'})
+  eq_(update, assert_update)
+  assert assert_update in updates
 
 def test_updates_manager_new_update_all_params():
   '''
