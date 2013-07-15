@@ -9,15 +9,15 @@ from buffpy.api import API
 
 # check http://bufferapp.com/developers/apps to retrieve a token
 # or generate one with the example
-token = '1/714ebdb617705ef9491a81fb21c1da42'
+token = 'awesome_token'
 
 # instantiate the api object
-api = API(client_id='51cc6dd5f882a8ba18000055',
-          client_secret='83b019d154cae4d2c734d813b33e5e53',
+api = API(client_id='client_id',
+          client_secret='client_secret',
           access_token=token)
 
 # retrieve a single update based on an id
-update = Update(api=api, id='51de8d33e48c051712000019')
+update = Update(api=api, id='update_id')
 print update
 
 # get update's interactions

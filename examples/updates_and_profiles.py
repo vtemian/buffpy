@@ -9,11 +9,11 @@ from buffpy.api import API
 
 # check http://bufferapp.com/developers/apps to retrieve a token
 # or generate one with the example
-token = '1/714ebdb617705ef9491a81fb21c1da42'
+token = 'awesome_token'
 
 # instantiate the api object
-api = API(client_id='51cc6dd5f882a8ba18000055',
-          client_secret='83b019d154cae4d2c734d813b33e5e53',
+api = API(client_id='client_id',
+          client_secret='client_secret',
           access_token=token)
 
 # get all pending updates of a social network profile
@@ -30,7 +30,7 @@ print profile.updates.sent[0].interactions
 print profile.updates.shuffle(count=10)
 
 # reorder updates
-print profile.updates.reorder(['51dd27629f7fdf520d00009a'])
+print profile.updates.reorder(['update_id'])
 
 # create an update
 print profile.updates.new("Hello there", now=True)
