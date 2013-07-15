@@ -126,6 +126,7 @@ Returns an object with the current configuration that Buffer is using,
 including supported services, their icons and the varying limits of character 
 and schedules.
 
+```python
 # instantiate the api object
 api = API(client_id='client_id',
           client_secret='client_secret',
@@ -133,3 +134,4 @@ api = API(client_id='client_id',
 
 # get api's info
 print api.info
+```
