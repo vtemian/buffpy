@@ -1,4 +1,4 @@
-from buffer.models.profile import PATHS, Profile
+from buffpy.models.profile import PATHS, Profile
 
 class Profiles(list):
   '''

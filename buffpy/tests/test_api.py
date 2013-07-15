@@ -3,14 +3,14 @@ import json
 from nose.tools import eq_, raises
 from mock import MagicMock, patch
 
-from buffer.api import API
+from buffpy.api import API
 
 def test_api_get_request():
   '''
     Test simply api get request
   '''
 
-  with patch('buffer.api.OAuth2Session') as mocked_oauth2:
+  with patch('buffpy.api.OAuth2Session') as mocked_oauth2:
     mocked_session = MagicMock()
 
     mocked_response = MagicMock()
@@ -30,7 +30,7 @@ def test_api_get_request_no_access_token():
     Test simply api get request without access_token
   '''
 
-  with patch('buffer.api.OAuth2Session') as mocked_oauth2:
+  with patch('buffpy.api.OAuth2Session') as mocked_oauth2:
     mocked_session = MagicMock()
     mocked_session.access_token = None
 
@@ -44,7 +44,7 @@ def test_api_post_request():
     Test simply api post request
   '''
 
-  with patch('buffer.api.OAuth2Session') as mocked_oauth2:
+  with patch('buffpy.api.OAuth2Session') as mocked_oauth2:
     mocked_session = MagicMock()
 
     mocked_response = MagicMock()
@@ -66,7 +66,7 @@ def test_api_post_request_no_access_token():
     Test simply api post request without access_token
   '''
 
-  with patch('buffer.api.OAuth2Session') as mocked_oauth2:
+  with patch('buffpy.api.OAuth2Session') as mocked_oauth2:
     mocked_session = MagicMock()
 
     mocked_session.access_token = None
@@ -81,7 +81,7 @@ def test_api_info():
     Test simple configuration retrieving
   '''
 
-  with patch('buffer.api.OAuth2Session') as mocked_oauth2:
+  with patch('buffpy.api.OAuth2Session') as mocked_oauth2:
     mocked_session = MagicMock()
 
     mocked_response = MagicMock()

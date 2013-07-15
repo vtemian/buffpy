@@ -2,7 +2,7 @@ import json
 
 from rauth import OAuth2Session
 
-from buffer.response import ResponseObject
+from buffpy.response import ResponseObject
 
 BASE_URL = 'https://api.bufferapp.com/1/%s'
 PATHS = {

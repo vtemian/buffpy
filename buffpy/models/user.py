@@ -1,4 +1,4 @@
-from buffer.response import ResponseObject
+from buffpy.response import ResponseObject
 
 class User(ResponseObject):
   '''

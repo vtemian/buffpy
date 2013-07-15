@@ -1,8 +1,8 @@
 from nose.tools import eq_
 from mock import MagicMock, patch
 
-from buffer.managers.profiles import Profiles
-from buffer.models.profile import Profile, PATHS
+from buffpy.managers.profiles import Profiles
+from buffpy.models.profile import Profile, PATHS
 
 mocked_response = {
   'name': 'me',
@@ -18,7 +18,7 @@ def test_profiles_manager_all_method():
   mocked_api = MagicMock()
   mocked_api.get.return_value = [{'a':'b'}]
 
-  with patch('buffer.managers.profiles.Profile') as mocked_profile:
+  with patch('buffpy.managers.profiles.Profile') as mocked_profile:
     mocked_profile.return_value = 1
 
     profiles = Profiles(api=mocked_api).all()

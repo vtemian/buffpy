@@ -1,7 +1,7 @@
 from nose.tools import eq_
 from mock import MagicMock
 
-from buffer.models.link import Link
+from buffpy.models.link import Link
 
 def test_links_shares():
   '''

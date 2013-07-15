@@ -2,8 +2,8 @@ from pprint import pprint as pp
 
 from colorama import Fore
 
-from buffer.api import API
-from buffer.models.user import User
+from buffpy.api import API
+from buffpy.models.user import User
 
 # check http://bufferapp.com/developers/apps to retrieve a token
 # or generate one with the example

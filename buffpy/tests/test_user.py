@@ -1,6 +1,6 @@
 from mock import MagicMock, patch
 
-from buffer.models.user import User
+from buffpy.models.user import User
 
 def test_simple_user_request():
   '''
@@ -13,7 +13,7 @@ def test_simple_user_request():
   }
   mocked_api.get.return_value = mocked_response
 
-  with patch('buffer.models.user.ResponseObject') as mocked_response:
+  with patch('buffpy.models.user.ResponseObject') as mocked_response:
     User(api=mocked_api)
 
     mocked_api.get.assert_called_once_with(url='user.json')

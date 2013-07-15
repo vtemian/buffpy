@@ -1,5 +1,5 @@
-from buffer.models.link import Link
-from buffer.api import API
+from buffpy.models.link import Link
+from buffpy.api import API
 
 # check http://bufferapp.com/developers/apps to retrieve a token
 # or generate one with the example
