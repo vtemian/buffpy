@@ -1,6 +1,3 @@
-import json
-
-from nose.tools import eq_, raises
 from mock import MagicMock, patch
 
 from buffer.models.user import User

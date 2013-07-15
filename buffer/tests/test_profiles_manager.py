@@ -1,6 +1,4 @@
-import json
-
-from nose.tools import eq_, raises
+from nose.tools import eq_
 from mock import MagicMock, patch
 
 from buffer.managers.profiles import Profiles

@@ -1,5 +1,5 @@
-from nose.tools import eq_, raises
-from mock import MagicMock, patch
+from nose.tools import eq_
+from mock import MagicMock
 
 from buffer.models.link import Link
 
