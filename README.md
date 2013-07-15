@@ -4,23 +4,23 @@ Simple to use python library for Buffer App
 
 ### ORM`ish
 ------------
-Bufferapp.com expose some usefull entities:
+Bufferapp.com details some useful entities:
   * user
   * profile
   * update
   * link
   * info
 
-Every entity can be seen as an object that have attributes and methods. Those
-methdos and attributes are linked to some endpoints.
+Every entity can be seen as an object that has attributes and methods. Those
+methdos and attributes are linked to certain endpoints.
 
-All those objects are special dicts. You can do something like
+All objects are special dicts. For example, you can do something like:
 ```python
 user.id     => '12455678976asd'
 user        => {...}
 ```
 
-If you want to see some complete examples, check [here](../master/examples)
+If you want to see more complete examples, click [here](../master/examples)
 
 #### User
 ----------
