@@ -23,7 +23,7 @@ class ResponseObject(dict):
     '''
 
     for key in root_dict:
-      if type(root_dict[key]) == dict:
+      if isinstance(root_dict[key], dict):
           root_dict[key] = ResponseObject(root_dict[key])
 
     return root_dict
