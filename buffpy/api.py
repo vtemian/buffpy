@@ -29,7 +29,7 @@ class API(object):
     self.session.access_token = value
 
   def get(self, url, parser=None):
-    if parser == None:
+    if parser is None:
       parser = json.loads
 
     if not self.session.access_token:
@@ -40,7 +40,7 @@ class API(object):
     return parser(response.content)
 
   def post(self, url, parser=None, **params):
-    if parser == None:
+    if parser is None:
       parser = json.loads
 
     if not self.session.access_token:
