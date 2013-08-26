@@ -11,7 +11,7 @@ requires_list = [
   'wsgiref>=0.1.2']
 
 setup(name='buffpy',
-      version='1.03b',
+      version='1.04b',
       platforms='any',
       description='Python library for Buffer App',
       author='Vlad Temian',
@@ -35,9 +35,5 @@ setup(name='buffpy',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.0',
-        'Programming Language :: Python :: 3.1',
-        'Programming Language :: Python :: 3.2',
       ]
-     )
+)
