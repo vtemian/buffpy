@@ -8,4 +8,4 @@ python:
 install:
   - pip install -r requirements.txt
 # command to run tests
-script: nosetests --cover-package=buffpy
+script: nosetests --with-coverage --cover-package=buffpy
