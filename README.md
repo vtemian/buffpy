@@ -3,7 +3,7 @@ buffer-app-python (buffpy)
 Simple to use python library for Buffer App
 
 [![Build Status](https://travis-ci.org/vtemian/buffpy.png?branch=master)](https://travis-ci.org/vtemian/buffpy) [![Coverage Status](https://coveralls.io/repos/vtemian/buffpy/badge.png?branch=master)](https://coveralls.io/r/vtemian/buffpy?branch=master)
-[![Downloads](https://pypip.in/d/buffpy/badge.png)](https://crate.io/package/buffpy)
+[![Downloads](https://pypip.in/d/buffpy/badge.png)](https://crate.io/packages/buffpy/)
 
 ### ORM`ish
 ------------
