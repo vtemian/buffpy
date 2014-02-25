@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 requires_list = [
   'argparse>=1.2.1',
@@ -11,16 +11,16 @@ requires_list = [
   'wsgiref>=0.1.2']
 
 setup(name='buffpy',
-      version='1.04b',
+      version='1.05b',
       platforms='any',
       description='Python library for Buffer App',
       author='Vlad Temian',
       author_email='vladtemian@gmail.com',
       url='https://github.com/vtemian/buffpy',
-      packages = ['buffpy'],
+      packages=['buffpy'],
       include_package_data=True,
       install_requires=requires_list,
-      classifiers = [
+      classifiers=[
         'Programming Language :: Python :: 2.7',
       ]
 )
