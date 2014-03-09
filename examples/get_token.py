@@ -2,11 +2,11 @@ from colorama import Fore
 
 from buffpy import AuthService
 
-client_id = '531c789efeaa69c436000080'
-client_secret = '818ae1eb0f615ffaf298ba6b6db658e0'
+client_id = 'add_apps_client_id'
+client_secret = 'add_apps_secret'
 
 print Fore.YELLOW + '---- START TOKEN RETRIEVING OPERATION ----' + Fore.RESET
-redirect_uri = 'http://vladtemian.info'
+redirect_uri = 'add_your_redirect_uri(with http)'
 
 
 service = AuthService(client_id, client_secret, redirect_uri)

@@ -25,14 +25,32 @@ user        => {...}
 
 If you want to see more complete examples, click [here](../master/examples)
 
+#### Authorization
+------------------
+Get access_token using buffer [docs](https://bufferapp.com/developers/api/oauth)
+
+```python
+
+service = AuthService(client_id, client_secret, redirect_uri)
+
+url = service.authorize_url
+
+# Access the url and retrieve the token
+auth_code = #Paste the code from the redirected url
+
+access_token = service.get_access_token(auth_code)
+
+api = service.create_session(access_token)
+```
+
 #### User
 ----------
 A user represents a single Buffer user account.
 
 ```python
 
-api = API(client_id='client_id', 
-          client_secret='client_secret', 
+api = API(client_id='client_id',
+          client_secret='client_secret',
           access_token='access_token')
 
 # instantiate an user object
