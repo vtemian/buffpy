@@ -1,13 +1,19 @@
 import json
+import urllib
 
-from rauth import OAuth2Session
+from rauth import OAuth2Session, OAuth2Service
 
 from buffpy.response import ResponseObject
 
+
 BASE_URL = 'https://api.bufferapp.com/1/%s'
 PATHS = {
-  'INFO': 'info/configuration.json'
+    'INFO': 'info/configuration.json'
 }
+
+AUTHORIZE_URL = 'https://bufferapp.com/oauth2/authorize'
+ACCESS_TOKEN = 'https://api.bufferapp.com/1/oauth2/token.json'
+
 
 class API(object):
   '''
@@ -16,9 +22,9 @@ class API(object):
   '''
 
   def __init__(self, client_id, client_secret, access_token=None):
-    self.session = OAuth2Session( client_id=client_id,
-                                  client_secret=client_secret,
-                                  access_token=access_token)
+    self.session = OAuth2Session(client_id=client_id,
+                                 client_secret=client_secret,
+                                 access_token=access_token)
 
   @property
   def access_token(self):
@@ -46,7 +52,7 @@ class API(object):
     if not self.session.access_token:
       raise ValueError('Please set an access token first!')
 
-    headers = {'Content-Type':'application/x-www-form-urlencoded'}
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
     response = self.session.post(url=BASE_URL % url, headers=headers, **params)
 
@@ -66,3 +72,31 @@ class API(object):
 
     response = self.get(url=PATHS['INFO'])
     return ResponseObject(response)
+
+
+class AuthService(object):
+
+  def __init__(self, client_id, client_secret, redirect_uri):
+    self.outh_service = OAuth2Service(client_id=client_id,
+                                      client_secret=client_secret,
+                                      name='buffer',
+                                      authorize_url=AUTHORIZE_URL,
+                                      access_token_url=ACCESS_TOKEN,
+                                      base_url=BASE_URL % '')
+
+    self.redirect_uri = redirect_uri
+
+  def create_session(self, access_token=None):
+    return self.outh_service.get_session(access_token)
+
+  def get_access_token(self, auth_code):
+    auth_code = urllib.unquote(auth_code).decode('utf8')
+    data = {'code': auth_code,
+            'grant_type': 'authorization_code',
+            'redirect_uri': self.redirect_uri}
+
+    return self.outh_service.get_access_token(data=data, decoder=json.loads)
+
+  @property
+  def authorize_url(self):
+     return self.outh_service.get_authorize_url(response_type='code', redirect_uri=self.redirect_uri)
