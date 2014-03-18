@@ -156,3 +156,7 @@ api = API(client_id='client_id',
 # get api's info
 print api.info
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vtemian/buffpy/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
