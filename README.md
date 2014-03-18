@@ -4,6 +4,7 @@ Simple to use python library for Buffer App
 
 [![Build Status](https://travis-ci.org/vtemian/buffpy.png?branch=master)](https://travis-ci.org/vtemian/buffpy) [![Coverage Status](https://coveralls.io/repos/vtemian/buffpy/badge.png?branch=master)](https://coveralls.io/r/vtemian/buffpy?branch=master)
 [![Downloads](https://pypip.in/d/buffpy/badge.png)](https://crate.io/packages/buffpy/)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vtemian/buffpy/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 ### ORM`ish
 ------------
@@ -156,7 +157,3 @@ api = API(client_id='client_id',
 # get api's info
 print api.info
 ```
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vtemian/buffpy/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
