@@ -4,6 +4,7 @@ from nose.tools import eq_, raises
 from mock import MagicMock, patch
 
 from buffpy.api import API
+from buffpy.exceptions import *
 
 def test_api_get_request():
   '''
@@ -96,3 +97,12 @@ def test_api_info():
     url = 'https://api.bufferapp.com/1/info/configuration.json'
     mocked_session.get.assert_called_once_with(url=url)
     eq_(info.status, 'ok')
+
+@raises(BuffpyRestException)
+def test_timeout_exception():
+    pass
+
+@raises(BuffpyRestException)
+def test_parse_buffpy_error():
+    pass
+
