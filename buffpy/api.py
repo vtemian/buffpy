@@ -45,7 +45,7 @@ class API(object):
     response = self.session.get(url=BASE_URL % url)
 
     if not response.ok:
-      self._handleResponseError(self, response)
+      self._handleResponseError(url, response)
 
 
     return parser(response.content)
@@ -62,11 +62,11 @@ class API(object):
     response = self.session.post(url=BASE_URL % url, headers=headers, **params)
 
     if not response.ok:
-      self._handleResponseError(self, response)
+      self._handleResponseError(url, response)
 
     return parser(response.content)
 
-  def _handleResponseError(selfself, response):
+  def _handleResponseError(self, url, response):
     http_code = response.status_code
     try:
         parsed = parser(response.content)
