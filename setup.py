@@ -10,13 +10,13 @@ requires_list = [
 ]
 
 setup(name='buffpy',
-      version='1.07',
+      version='1.08',
       platforms='any',
       description='Python library for Buffer App',
       author='Vlad Temian',
       author_email='vladtemian@gmail.com',
       url='https://github.com/vtemian/buffpy',
-      packages=['buffpy'],
+      packages=['buffpy', 'buffpy.managers', 'buffpy.models', 'buffpy.tests'],
       include_package_data=True,
       install_requires=requires_list,
       classifiers=[
