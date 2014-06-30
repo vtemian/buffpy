@@ -4,6 +4,9 @@ from nose.tools import eq_, raises
 from mock import MagicMock, patch
 
 from buffpy.api import API
+from buffpy.exceptions import *
+
+import httpretty
 
 def test_api_get_request():
   '''
@@ -96,3 +99,14 @@ def test_api_info():
     url = 'https://api.bufferapp.com/1/info/configuration.json'
     mocked_session.get.assert_called_once_with(url=url)
     eq_(info.status, 'ok')
+
+@raises(BuffpyRestException)
+@httpretty.activate
+def test_api_post_parse_buffpy_error():
+
+    httpretty.register_uri(httpretty.POST, "https://api.bufferapp.com/1/hey",
+                           body="{u'message': u\"Whoops, it looks like you've posted that one recently. Unfortunately, we're not able to post the same thing again so soon!\", u'code': 1025, u'success': False}",
+                           status=400)
+
+    api = API(client_id='1', client_secret='2', access_token='access_token')
+    api.post(url='hey', data='new=True')

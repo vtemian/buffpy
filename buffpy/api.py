@@ -4,6 +4,7 @@ import urllib
 from rauth import OAuth2Session, OAuth2Service
 
 from buffpy.response import ResponseObject
+from buffpy.exceptions import BuffpyRestException
 
 
 BASE_URL = 'https://api.bufferapp.com/1/%s'
@@ -43,6 +44,10 @@ class API(object):
 
     response = self.session.get(url=BASE_URL % url)
 
+    if not response.ok:
+      self._handleResponseError(url, response)
+
+
     return parser(response.content)
 
   def post(self, url, parser=None, **params):
@@ -56,7 +61,22 @@ class API(object):
 
     response = self.session.post(url=BASE_URL % url, headers=headers, **params)
 
+    if not response.ok:
+      self._handleResponseError(url, response)
+
     return parser(response.content)
+
+  def _handleResponseError(self, url, response):
+    http_code = response.status_code
+    try:
+        parsed = parser(response.content)
+        error_code = parsed['error_code']
+        description = parsed['message']
+    except:
+        error_code = None
+        description = response.content
+
+    raise BuffpyRestException(url, http_code, error_code, description)
 
   @property
   def info(self):
