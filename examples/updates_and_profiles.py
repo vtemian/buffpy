@@ -18,19 +18,19 @@ api = API(client_id='client_id',
 
 # get all pending updates of a social network profile
 profile = Profiles(api=api).filter(service='twitter')[0]
-print profile.updates.pending
+print(profile.updates.pending)
 
 # get all sent updates of a social network profile
-print profile.updates.sent
+print(profile.updates.sent)
 
 # retrieve all update's interactions
-print profile.updates.sent[0].interactions
+print(profile.updates.sent[0].interactions)
 
 # shuffle updates
-print profile.updates.shuffle(count=10)
+print(profile.updates.shuffle(count=10))
 
 # reorder updates
-print profile.updates.reorder(['update_id'])
+print(profile.updates.reorder(['update_id']))
 
 # create an update
-print profile.updates.new("Hello there", now=True)
+print(profile.updates.new("Hello there", now=True))

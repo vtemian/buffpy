@@ -10,4 +10,4 @@ api = API(client_id='client_id',
           access_token=token)
 
 # get api's info
-print api.info
+print(api.info)
