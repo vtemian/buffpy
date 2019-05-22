@@ -138,7 +138,7 @@ A link represents a unique URL that has been shared through Buffer
 
 ```python
 # get a link's shares
-print Link(api=api, url='http%3A%2F%2Fbufferapp.com').shares
+print(Link(api=api, url='http%3A%2F%2Fbufferapp.com').shares)
 ```
 
 #### Info
