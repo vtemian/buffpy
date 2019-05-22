@@ -1,4 +1,5 @@
 from typing import List
+from urllib.parse import quote
 
 from buffpy.models.update import Update
 
@@ -110,7 +111,7 @@ class Updates(list):
 
         url = PATHS["CREATE"]
 
-        post_data = ["text={}&".format(text)]
+        post_data = ["text={}&".format(quote(text.encode("utf-8")))]
         post_data.append("profile_ids[]={}&".format(self.profile_id))
 
         if shorten:
@@ -129,7 +130,8 @@ class Updates(list):
             media_format = "media[{}]={}&"
 
             for media_type, media_item in list(media.items()):
-                post_data.append(media_format.format(media_type, media_item))
+                quoted_media = quote(media_item.encode("utf-8"))
+                post_data.append(media_format.format(media_type, quoted_media))
 
         response = self.api.post(url=url, data="".join(post_data))
         new_update = Update(api=self.api, raw_response=response["updates"][0])
