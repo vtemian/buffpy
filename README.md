@@ -4,7 +4,6 @@ Simple to use python library for Buffer App
 
 [![Build Status](https://travis-ci.org/vtemian/buffpy.png?branch=master)](https://travis-ci.org/vtemian/buffpy) [![Coverage Status](https://coveralls.io/repos/vtemian/buffpy/badge.png?branch=master)](https://coveralls.io/r/vtemian/buffpy?branch=master)
 [![Downloads](https://pypip.in/d/buffpy/badge.png)](https://crate.io/packages/buffpy/)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/vtemian/buffpy/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 ### ORM`ish
 ------------
@@ -16,7 +15,7 @@ Bufferapp.com details some useful entities:
   * info
 
 Every entity can be seen as an object that has attributes and methods. Those
-methdos and attributes are linked to certain endpoints.
+methods and attributes are linked to certain endpoints.
 
 All objects are special dicts. For example, you can do something like:
 ```python
