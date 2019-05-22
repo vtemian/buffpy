@@ -18,10 +18,10 @@ api = API(client_id='client_id',
 
 # retrieve a single update based on an id
 update = Update(api=api, id='update_id')
-print update
+print(update)
 
 # get update's interactions
-print update.interactions
+print(update.interactions)
 
 # edit
 update = update.edit(text="Hey!")

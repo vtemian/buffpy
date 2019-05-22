@@ -1,6 +1,5 @@
 import json
-import urllib
-
+import urllib.request, urllib.parse, urllib.error
 from rauth import OAuth2Session, OAuth2Service
 
 from buffpy.response import ResponseObject
@@ -70,7 +69,7 @@ class API(object):
     http_code = response.status_code
     try:
         parsed = parser(response.content)
-        error_code = parsed['error_code']
+        error_code = parsed['error_unquotecode']
         description = parsed['message']
     except:
         error_code = None
@@ -110,7 +109,7 @@ class AuthService(object):
     return self.outh_service.get_session(access_token)
 
   def get_access_token(self, auth_code):
-    auth_code = urllib.unquote(auth_code).decode('utf8')
+    auth_code = urllib.parse.unquote(auth_code)
     data = {'code': auth_code,
             'grant_type': 'authorization_code',
             'redirect_uri': self.redirect_uri}

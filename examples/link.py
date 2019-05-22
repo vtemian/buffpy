@@ -11,4 +11,4 @@ api = API(client_id='client_id',
           access_token=token)
 
 # get a link's shares
-print Link(api=api, url='http%3A%2F%2Fbufferapp.com').shares
+print(Link(api=api, url='http%3A%2F%2Fbufferapp.com').shares)

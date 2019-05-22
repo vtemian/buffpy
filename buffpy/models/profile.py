@@ -43,7 +43,7 @@ class Profile(ResponseObject):
     data_format = "schedules[0][%s][]=%s&"
     post_data = ""
 
-    for format_type, values in schedules.iteritems():
+    for format_type, values in list(schedules.items()):
       for value in values:
         post_data += data_format % (format_type, value)
 

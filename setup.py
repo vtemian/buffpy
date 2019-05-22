@@ -1,16 +1,23 @@
+
 from setuptools import setup
 
 requires_list = [
-    'colorama==0.2.7',
-    'coverage==3.7.1',
-    'mock==1.0.1',
-    'nose==1.3.0',
-    'rauth==0.6.2',
-    'requests==1.2.3',
+    'certifi==2019.3.9',
+    'chardet==3.0.4',
+    'colorama==0.4.1',
+    'coverage==4.5.3',
+    'httpretty==0.9.6',
+    'idna==2.8',
+    'mock==3.0.5',
+    'nose==1.3.7',
+    'rauth==0.7.3',
+    'requests==2.22.0',
+    'six==1.12.0',
+    'urllib3==1.25.2'
 ]
 
 setup(name='buffpy',
-      version='1.08',
+      version='3.0',
       platforms='any',
       description='Python library for Buffer App',
       author='Vlad Temian',
@@ -20,6 +27,6 @@ setup(name='buffpy',
       include_package_data=True,
       install_requires=requires_list,
       classifiers=[
-          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3.6',
       ]
 )
