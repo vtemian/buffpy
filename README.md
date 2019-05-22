@@ -56,9 +56,9 @@ api = API(client_id='client_id',
 # instantiate an user object
 user = User(api=api)
 
-print user
-print user.id
-print user.timezone
+print(user)
+print(user.id)
+print(user.timezone)
 ```
 
 #### Profile
@@ -67,14 +67,14 @@ A Buffer profile represents a connection to a single social media account.
 
 ```python
 profiles = Profiles(api=api)
-print profiles.all() # get all profiles
+print(profiles.all()) # get all profiles
 
 # filter profiles using some criteria
 profile = Profiles(api=api).filter(service='twitter')[0]
-print profile # my twitter profile
+print(profile) # my twitter profile
 
 # get schedules of my twitter profile
-print profile.schedules
+print(profile.schedules)
 
 # update schedules times for my twitter profile
 profile.schedules = {
@@ -90,10 +90,10 @@ An update represents a single post to a single social media account.
 ```python
 # retrieve a single update based on an id
 update = Update(api=api, id='51de8d33e48c051712000019')
-print update
+print(update)
 
 # get update's interactions
-print update.interactions
+print(update.interactions)
 
 # edit
 update = update.edit(text="Hey!")
@@ -114,22 +114,22 @@ update.delete()
 ```python
 # get all pending updates of a social network profile
 profile = Profiles(api=api).filter(service='twitter')[0]
-print profile.updates.pending
+print(profile.updates.pending)
 
 # get all sent updates of a social network profile
-print profile.updates.sent
+print(profile.updates.sent)
 
 # retrieve all update's interactions
-print profile.updates.sent[0].interactions
+print(profile.updates.sent[0].interactions)
 
 # shuffle updates
-print profile.updates.shuffle(count=10)
+print(profile.updates.shuffle(count=10))
 
 # reorder updates
-print profile.updates.reorder(['51dd27629f7fdf520d00009a'])
+print(profile.updates.reorder(['51dd27629f7fdf520d00009a']))
 
 # create an update
-print profile.updates.new("Hello there", now=True)
+print(profile.updates.new("Hello there", now=True))
 ```
 
 #### Links
@@ -154,5 +154,5 @@ api = API(client_id='client_id',
           access_token='access_token')
 
 # get api's info
-print api.info
+print(api.info)
 ```
