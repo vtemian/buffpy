@@ -1,121 +1,122 @@
 import json
-import urllib.request, urllib.parse, urllib.error
+import urllib.parse
+from typing import Callable
+
 from rauth import OAuth2Session, OAuth2Service
 
-from buffpy.response import ResponseObject
-from buffpy.exceptions import BuffpyRestException
+from .exceptions import BuffpyRestException
+from .response import ResponseObject
 
 
-BASE_URL = 'https://api.bufferapp.com/1/%s'
+BASE_URL = "https://api.bufferapp.com/1/{}"
 PATHS = {
-    'INFO': 'info/configuration.json'
+    "INFO": "info/configuration.json"
 }
+AUTHORIZE_URL = "https://bufferapp.com/oauth2/authorize"
+ACCESS_TOKEN = "https://api.bufferapp.com/1/oauth2/token.json"
 
-AUTHORIZE_URL = 'https://bufferapp.com/oauth2/authorize'
-ACCESS_TOKEN = 'https://api.bufferapp.com/1/oauth2/token.json'
+DEFAULT_PARSER = json.loads
+OAUTH_SERVICE_NAME = "buffer"
 
 
-class API(object):
-  '''
+class API:
+    """
     Small and clean class that embrace all basic
     operations with the buffer app
-  '''
+    """
 
-  def __init__(self, client_id, client_secret, access_token=None):
-    self.session = OAuth2Session(client_id=client_id,
-                                 client_secret=client_secret,
-                                 access_token=access_token)
+    def __init__(self, client_id, client_secret, access_token=None):
+        self.session = OAuth2Session(client_id=client_id,
+                                     client_secret=client_secret,
+                                     access_token=access_token)
 
-  @property
-  def access_token(self):
-    return self.session.access_token
+    @property
+    def access_token(self):
+        return self.session.access_token
 
-  @access_token.setter
-  def access_token(self, value):
-    self.session.access_token = value
+    @access_token.setter
+    def access_token(self, value: str):
+        self.session.access_token = value
 
-  def get(self, url, parser=None):
-    if parser is None:
-      parser = json.loads
+    def get(self, url: str, parser: Callable = DEFAULT_PARSER) -> str:
+        if not self.session.access_token:
+            raise ValueError("Please set an access token first!")
 
-    if not self.session.access_token:
-      raise ValueError('Please set an access token first!')
+        response = self.session.get(url=BASE_URL.format(url))
 
-    response = self.session.get(url=BASE_URL % url)
+        if response.ok:
+            return parser(response.content)
 
-    if not response.ok:
-      self._handleResponseError(url, response)
+        self._handleResponseError(url, response, parser)
 
+    def post(self, url: str, parser: Callable = DEFAULT_PARSER, **params) -> str:
+        if not self.session.access_token:
+            raise ValueError("Please set an access token first!")
 
-    return parser(response.content)
+        headers = {"Content-Type": "application/x-www-form-urlencoded"}
 
-  def post(self, url, parser=None, **params):
-    if parser is None:
-      parser = json.loads
+        response = self.session.post(url=BASE_URL.format(url), headers=headers,
+                                     **params)
 
-    if not self.session.access_token:
-      raise ValueError('Please set an access token first!')
+        if response.ok:
+            return parser(response.content)
 
-    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+        self._handleResponseError(url, response, parser)
 
-    response = self.session.post(url=BASE_URL % url, headers=headers, **params)
+    def _handleResponseError(self, url: str, response, parser: Callable):
+        http_code = response.status_code
 
-    if not response.ok:
-      self._handleResponseError(url, response)
+        error_code, description = None, response.content
 
-    return parser(response.content)
+        try:
+            parsed = parser(response.content)
+            error_code, description = (parsed["error_unquotecode"],
+                                       parsed["message"])
+        except:
+            pass
 
-  def _handleResponseError(self, url, response):
-    http_code = response.status_code
-    try:
-        parsed = parser(response.content)
-        error_code = parsed['error_unquotecode']
-        description = parsed['message']
-    except:
-        error_code = None
-        description = response.content
+        raise BuffpyRestException(url, http_code, error_code, description)
 
-    raise BuffpyRestException(url, http_code, error_code, description)
+    @property
+    def info(self):
+        """
+        Returns an object with the current configuration that Buffer is using,
+        including supported services, their icons and the varying limits of
+        character and schedules.
 
-  @property
-  def info(self):
-    '''
-      Returns an object with the current configuration that Buffer is using,
-      including supported services, their icons and the varying limits of
-      character and schedules.
+        The services keys map directly to those on profiles and updates so that
+        you can easily show the correct icon or calculate the correct character
+        length for an update.
+        """
 
-      The services keys map directly to those on profiles and updates so that
-      you can easily show the correct icon or calculate the correct character
-      length for an update.
-    '''
-
-    response = self.get(url=PATHS['INFO'])
-    return ResponseObject(response)
+        return ResponseObject(self.get(url=PATHS["INFO"]))
 
 
 class AuthService(object):
 
-  def __init__(self, client_id, client_secret, redirect_uri):
-    self.outh_service = OAuth2Service(client_id=client_id,
-                                      client_secret=client_secret,
-                                      name='buffer',
-                                      authorize_url=AUTHORIZE_URL,
-                                      access_token_url=ACCESS_TOKEN,
-                                      base_url=BASE_URL % '')
+    def __init__(self, client_id, client_secret, redirect_uri):
+        self.outh_service = OAuth2Service(client_id=client_id,
+                                          client_secret=client_secret,
+                                          name=OAUTH_SERVICE_NAME,
+                                          authorize_url=AUTHORIZE_URL,
+                                          access_token_url=ACCESS_TOKEN,
+                                          base_url=BASE_URL.format(""))
+        self.redirect_uri = redirect_uri
 
-    self.redirect_uri = redirect_uri
+    def create_session(self, access_token: str =None):
+        return self.outh_service.get_session(access_token)
 
-  def create_session(self, access_token=None):
-    return self.outh_service.get_session(access_token)
+    def get_access_token(self, auth_code: str):
+        data = {
+            "code": urllib.parse.unquote(auth_code),
+            "grant_type": "authorization_code",
+            "redirect_uri": self.redirect_uri
+        }
 
-  def get_access_token(self, auth_code):
-    auth_code = urllib.parse.unquote(auth_code)
-    data = {'code': auth_code,
-            'grant_type': 'authorization_code',
-            'redirect_uri': self.redirect_uri}
+        return self.outh_service.get_access_token(data=data,
+                                                  decoder=json.loads)
 
-    return self.outh_service.get_access_token(data=data, decoder=json.loads)
-
-  @property
-  def authorize_url(self):
-     return self.outh_service.get_authorize_url(response_type='code', redirect_uri=self.redirect_uri)
+    @property
+    def authorize_url(self):
+        return self.outh_service.get_authorize_url(response_type="code",
+                                                   redirect_uri=self.redirect_uri)

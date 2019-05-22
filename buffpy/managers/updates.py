@@ -1,135 +1,139 @@
+from typing import List
+
 from buffpy.models.update import Update
 
+
 PATHS = {
-  'GET_PENDING': 'profiles/%s/updates/pending.json',
-  'GET_SENT': 'profiles/%s/updates/sent.json',
-  'SHUFFLE': 'profiles/%s/updates/shuffle.json',
-  'REORDER': 'profiles/%s/updates/reorder.json',
-  'CREATE': 'updates/create.json',
+    "GET_PENDING": "profiles/%s/updates/pending.json",
+    "GET_SENT": "profiles/%s/updates/sent.json",
+    "SHUFFLE": "profiles/%s/updates/shuffle.json",
+    "REORDER": "profiles/%s/updates/reorder.json",
+    "CREATE": "updates/create.json",
 }
 
+
 class Updates(list):
-  '''
-    Implenents all the profiles+updates logic.
+    """
+        Implenents all the profiles and updates logic:
 
-    + retrieve updates related to a profile
-    + create a new update
-    + reorder and shuffle updates
-  '''
+            * retrieve updates related to a profile.
+            * create a new update.
+            * reorder and shuffle updates.
+    """
 
-  def __init__(self, api, profile_id):
-    self.api = api
-    self.profile_id = profile_id
+    def __init__(self, api, profile_id: str):
+        self.api = api
+        self.profile_id = profile_id
 
-    self.__pending = []
-    self.__sent = []
+        self.__pending = []
+        self.__sent = []
 
-  @property
-  def pending(self):
-    '''
-      Returns an array of updates that are currently in the buffer for an
-      individual social media profile.
-    '''
+    @property
+    def pending(self) -> List[Update]:
+        """
+            Returns an array of updates that are currently in buffer for an
+            individual social media profile.
+        """
 
-    pending_updates = []
-    url = PATHS['GET_PENDING'] % self.profile_id
+        url = PATHS["GET_PENDING"].format(self.profile_id)
+        response = self.api.get(url=url)
 
-    response = self.api.get(url=url)
-    for update in response['updates']:
-      pending_updates.append(Update(api=self.api, raw_response=update))
+        self.__pending = [
+            Update(api=self.api, raw_response=update)
+            for update in response.get("response", [])
+        ]
 
-    self.__pending = pending_updates
+        return self.__pending
 
-    return self.__pending
+    @property
+    def sent(self) -> List[Update]:
+        """
+            Returns an array of updates that have been sent from buffer for an
+            individual social media profile.
+        """
 
-  @property
-  def sent(self):
-    '''
-      Returns an array of updates that have been sent from the buffer for an
-      individual social media profile.
-    '''
+        url = PATHS["GET_SENT"] % self.profile_id
+        response = self.api.get(url=url)
 
-    sent_updates = []
-    url = PATHS['GET_SENT'] % self.profile_id
+        self.__sent = [
+            Update(api=self.api, raw_response=update)
+            for update in response.get("response", [])
+        ]
 
-    response = self.api.get(url=url)
-    for update in response['updates']:
-      sent_updates.append(Update(api=self.api, raw_response=update))
+        return self.__sent
 
-    self.__sent = sent_updates
+    def shuffle(self, count: str = None, utc: str = None):
+        """
+            Randomize the order at which statuses for a social media
+            profile will be sent out.
+        """
 
-    return self.__sent
+        post_data = ""
+        url = PATHS["SHUFFLE"].format(self.profile_id)
 
-  def shuffle(self, count=None, utc=None):
-    '''
-      Randomize the order at which statuses for the specified social media
-      profile will be sent out of the buffer.
-    '''
+        if count:
+            post_data += "count={}&".format(count)
 
-    url = PATHS['SHUFFLE'] % self.profile_id
+        if utc:
+            post_data += "utc={}".format(utc)
 
-    post_data = ''
-    if count:
-      post_data += 'count=%s&' % count
-    if utc:
-      post_data += 'utc=%s' % utc
+        return self.api.post(url=url, data=post_data)
 
-    return self.api.post(url=url, data=post_data)
+    def reorder(self, updates_ids: List[str],
+                offset: str = None, utc: str = None):
+        """
+            Edit the order in which statuses for a social media profile will
+            be sent out.
+        """
 
-  def reorder(self, updates_ids, offset=None, utc=None):
-    '''
-      Edit the order at which statuses for the specified social media profile will
-      be sent out of the buffer.
-    '''
+        post_data = []
+        url = PATHS["REORDER"].format(self.profile_id)
 
-    url = PATHS['REORDER'] % self.profile_id
+        if offset:
+            post_data.append("offset={}&".format(offset))
 
-    order_format = "order[]=%s&"
-    post_data = ''
+        if utc:
+            post_data.append("utc={}&".format(utc))
 
-    if offset:
-      post_data += 'offset=%s&' % offset
+        order_format = "order[]={}&"
+        for update in updates_ids:
+            post_data.append(order_format.format(update))
 
-    if utc:
-      post_data += 'utc=%s&' % utc
+        return self.api.post(url=url, data="".join(post_data))
 
-    for update in updates_ids:
-      post_data += order_format % update
+    #TODO: Multiple profile posting
+    def new(self, text: str, shorten: str = None, now: str = None,
+            top: str = None, media: str = None, when: str = None):
+        """
+            Create one or more new status updates.
+        """
 
-    return self.api.post(url=url, data=post_data)
+        url = PATHS["CREATE"]
 
-  #TODO: Multiple profile posting
-  def new(self, text, shorten=None, now=None, top=None, media=None, when=None):
-    '''
-      Create one or more new status updates.
-    '''
+        post_data = ["text={}&".format(text)]
+        post_data.append("profile_ids[]={}&".format(self.profile_id))
 
-    url = PATHS['CREATE']
+        if shorten:
+            post_data.append("shorten={}&".format(shorten))
 
-    post_data = "text=%s&" % text
-    post_data += "profile_ids[]=%s&" % self.profile_id
+        if now:
+            post_data.append("now={}&".format(now))
 
-    if shorten:
-      post_data += "shorten=%s&" % shorten
+        if top:
+            post_data.append("top={}&".format(top))
 
-    if now:
-      post_data += "now=%s&" % now
+        if when:
+            post_data.append("scheduled_at={}&".format(str(when)))
 
-    if top:
-      post_data += "top=%s&" % top
+        if media:
+            media_format = "media[{}]={}&"
 
-    if when:
-      post_data += "scheduled_at=%s&" % str(when)
+            for media_type, media_item in list(media.items()):
+                post_data.append(media_format.format(media_type, media_item))
 
-    if media:
-      media_format = "media[%s]=%s&"
+        response = self.api.post(url=url, data="".join(post_data))
+        new_update = Update(api=self.api, raw_response=response["updates"][0])
 
-      for media_type, media_item in list(media.items()):
-        post_data += media_format % (media_type, media_item)
+        self.append(new_update)
 
-    response = self.api.post(url=url, data=post_data)
-    new_update = Update(api=self.api, raw_response=response['updates'][0])
-
-    self.append(new_update)
-
-    return new_update
+        return new_update
