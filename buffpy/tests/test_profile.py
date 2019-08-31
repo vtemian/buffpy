@@ -1,53 +1,51 @@
-from nose.tools import eq_
-from mock import MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 from buffpy.models.profile import Profile, PATHS
 
+
 mocked_response = {
-  'name': 'me',
-  'service': 'twiter',
-  'id': 1
+    "name": "me",
+    "service": "twiter",
+    "id": 1
 }
 
+
 def test_profile_schedules_getter():
-  '''
-    Test schedules gettering from buffer api
-  '''
+    """ Should retrieve profiles from buffer's API. """
 
-  mocked_api = MagicMock()
-  mocked_api.get.return_value = '123'
+    mocked_api = MagicMock()
+    mocked_api.get.return_value = "123"
 
-  profile = Profile(mocked_api, mocked_response)
+    profile = Profile(mocked_api, mocked_response)
 
-  eq_(profile.schedules, '123')
-  mocked_api.get.assert_called_once_with(url = PATHS['GET_SCHEDULES'] % 1)
+    assert profile.schedules == "123"
+    mocked_api.get.assert_called_once_with(url=PATHS["GET_SCHEDULES"].format("1"))
+
 
 def test_profile_schedules_setter():
-  '''
-    Test schedules setter from buffer api
-  '''
+    """ Should update profile's schedules. """
 
-  mocked_api = MagicMock()
-  mocked_api.get.return_value = '123'
+    mocked_api = MagicMock()
+    mocked_api.get.return_value = "123"
 
-  profile = Profile(mocked_api, mocked_response)
+    profile = Profile(mocked_api, mocked_response)
 
-  profile.schedules = {
-      'times': ['mo']
-  }
+    profile.schedules = {
+        "times": ["mo"]
+    }
 
-  mocked_api.post.assert_called_once_with(url=PATHS['UPDATE_SCHEDULES'] % 1,
-      data='schedules[0][times][]=mo&')
+    mocked_api.post.assert_called_once_with(
+        url=PATHS["UPDATE_SCHEDULES"].format("1"),
+        data="schedules[0][times][]=mo&")
+
 
 def test_profile_updates():
-  '''
-    Test updates relationship with a profile
-  '''
+    """ Should properly call buffer's updates. """
 
-  mocked_api = MagicMock()
+    mocked_api = MagicMock()
 
-  with patch('buffpy.models.profile.Updates') as mocked_updates:
-    profile = Profile(api=mocked_api, raw_response={'id': 1})
-    updates = profile.updates
+    with patch("buffpy.models.profile.Updates") as mocked_updates:
+        profile = Profile(api=mocked_api, raw_response={"id": 1})
 
-    mocked_updates.assert_called_once_with(api=mocked_api, profile_id=1)
+        assert profile.updates
+        mocked_updates.assert_called_once_with(api=mocked_api, profile_id=1)
