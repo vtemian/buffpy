@@ -4,7 +4,7 @@ from buffpy.models.link import Link
 
 
 def test_links_shares():
-    """ Test link"s shares retrieving from constructor. """
+    """ Should retrieve shares in contructor. """
 
     mocked_api = MagicMock()
     mocked_api.get.return_value = {"shares": 123}
@@ -17,7 +17,7 @@ def test_links_shares():
 
 
 def test_links_get_shares():
-    """ Test link"s shares retrieving method. """
+    """ Should properly retrieve shares. """
 
     mocked_api = MagicMock()
     mocked_api.get.return_value = {"shares": 123}
