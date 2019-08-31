@@ -12,12 +12,10 @@ class Link(ResponseObject):
     """
 
     def __init__(self, api, url):
-        shares = api.get(url=PATHS["GET_SHARES"] % url)["shares"]
-
-        super().__init__({"shares": shares, "url": url})
-
+        super().__init__({"url": url})
         self.api = api
-        self.shares = []
+
+        self.get_shares()
 
     def get_shares(self):
         """
@@ -28,6 +26,6 @@ class Link(ResponseObject):
         """
 
         url = PATHS["GET_SHARES"].format(self.url)
-        self.shares = self.api.get(url=url)["shares"]
+        self.shares = self.api.get(url=url).get("shares", [])
 
         return self.shares
