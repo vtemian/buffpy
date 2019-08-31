@@ -5,10 +5,10 @@ from buffpy.models.update import Update
 
 
 PATHS = {
-    "GET_PENDING": "profiles/%s/updates/pending.json",
-    "GET_SENT": "profiles/%s/updates/sent.json",
-    "SHUFFLE": "profiles/%s/updates/shuffle.json",
-    "REORDER": "profiles/%s/updates/reorder.json",
+    "GET_PENDING": "profiles/{}/updates/pending.json",
+    "GET_SENT": "profiles/{}/updates/sent.json",
+    "SHUFFLE": "profiles/{}/updates/shuffle.json",
+    "REORDER": "profiles/{}/updates/reorder.json",
     "CREATE": "updates/create.json",
 }
 
@@ -53,7 +53,7 @@ class Updates(list):
             individual social media profile.
         """
 
-        url = PATHS["GET_SENT"] % self.profile_id
+        url = PATHS["GET_SENT"].format(self.profile_id)
         response = self.api.get(url=url)
 
         self.__sent = [
