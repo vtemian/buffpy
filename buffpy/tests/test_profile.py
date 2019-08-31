@@ -3,7 +3,7 @@ from unittest.mock import MagicMock, patch
 from buffpy.models.profile import Profile, PATHS
 
 
-mocked_response = {
+MOCKED_RESPONSE = {
     "name": "me",
     "service": "twiter",
     "id": 1
@@ -16,7 +16,7 @@ def test_profile_schedules_getter():
     mocked_api = MagicMock()
     mocked_api.get.return_value = "123"
 
-    profile = Profile(mocked_api, mocked_response)
+    profile = Profile(mocked_api, MOCKED_RESPONSE)
 
     assert profile.schedules == "123"
     mocked_api.get.assert_called_once_with(url=PATHS["GET_SCHEDULES"].format("1"))
@@ -28,7 +28,7 @@ def test_profile_schedules_setter():
     mocked_api = MagicMock()
     mocked_api.get.return_value = "123"
 
-    profile = Profile(mocked_api, mocked_response)
+    profile = Profile(mocked_api, MOCKED_RESPONSE)
 
     profile.schedules = {
         "times": ["mo"]
