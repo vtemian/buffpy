@@ -1,112 +1,84 @@
 import json
-
-from nose.tools import eq_, raises
-from mock import MagicMock, patch
-
-from buffpy.api import API
-from buffpy.exceptions import *
+from unittest.mock import patch, MagicMock
 
 import httpretty
+import pytest
+
+from buffpy.api import API
+from buffpy.exceptions import BuffpyRestException
+
+
+MOCKED_RESPONSE = MagicMock(content=json.dumps({"status": "ok"}))
+
 
 def test_api_get_request():
-  '''
-    Test simply api get request
-  '''
+    """ Should call Buffer for a given GET request. """
 
-  with patch('buffpy.api.OAuth2Session') as mocked_oauth2:
     mocked_session = MagicMock()
+    mocked_session.get.return_value = MOCKED_RESPONSE
 
-    mocked_response = MagicMock()
-    mocked_response.content = json.dumps({'status': 'ok'})
-    mocked_session.get.return_value = mocked_response
+    with patch("buffpy.api.OAuth2Session", return_value=mocked_session):
+        API(client_id="1", client_secret="2", access_token="access_token").get(url="hey")
 
-    mocked_oauth2.return_value = mocked_session
+    mocked_session.get.assert_called_once_with(url="https://api.bufferapp.com/1/hey")
 
-    api = API(client_id='1', client_secret='2', access_token='access_token')
-    api.get(url="hey")
 
-    mocked_session.get.assert_called_once_with(url='https://api.bufferapp.com/1/hey')
-
-@raises(ValueError)
 def test_api_get_request_no_access_token():
-  '''
-    Test simply api get request without access_token
-  '''
+    """ Should raise ValueError if the API is called without an access_token. """
 
-  with patch('buffpy.api.OAuth2Session') as mocked_oauth2:
-    mocked_session = MagicMock()
-    mocked_session.access_token = None
+    with patch("buffpy.api.OAuth2Session",
+               return_value=MagicMock(access_token=None)), \
+            pytest.raises(ValueError):
 
-    mocked_oauth2.return_value = mocked_session
+        API(client_id="1", client_secret="2").get(url="hey")
 
-    api = API(client_id='1', client_secret='2')
-    api.get(url="hey")
 
 def test_api_post_request():
-  '''
-    Test simply api post request
-  '''
+    """ Should call Buffer for a given POST request. """
 
-  with patch('buffpy.api.OAuth2Session') as mocked_oauth2:
     mocked_session = MagicMock()
+    mocked_session.post.return_value = MOCKED_RESPONSE
 
-    mocked_response = MagicMock()
-    mocked_response.content = json.dumps({'status': 'ok'})
-    mocked_session.post.return_value = mocked_response
+    with patch("buffpy.api.OAuth2Session", return_value=mocked_session):
+        api = API(client_id="1", client_secret="2", access_token="access_token")
+        api.post(url="hey", data="new=True")
 
-    mocked_oauth2.return_value = mocked_session
-
-    api = API(client_id='1', client_secret='2', access_token='access_token')
-    api.post(url='hey', data='new=True')
-
-    headers = {'Content-Type':'application/x-www-form-urlencoded'}
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
     mocked_session.post.assert_called_once_with(
-        url='https://api.bufferapp.com/1/hey', headers=headers, data='new=True')
+        url="https://api.bufferapp.com/1/hey", headers=headers, data="new=True")
 
-@raises(ValueError)
+
 def test_api_post_request_no_access_token():
-  '''
-    Test simply api post request without access_token
-  '''
+    """ Should raise ValueError if the API is called without an access_token. """
 
-  with patch('buffpy.api.OAuth2Session') as mocked_oauth2:
-    mocked_session = MagicMock()
+    with patch("buffpy.api.OAuth2Session", return_value=MagicMock(access_token=None)), \
+            pytest.raises(ValueError):
+        api = API(client_id="1", client_secret="2", access_token="access_token")
+        api.post(url="hey", data="new=True")
 
-    mocked_session.access_token = None
-
-    mocked_oauth2.return_value = mocked_session
-
-    api = API(client_id='1', client_secret='2', access_token='access_token')
-    api.post(url='hey', data='new=True')
 
 def test_api_info():
-  '''
-    Test simple configuration retrieving
-  '''
+    """ Should request Buffer's configuration. """
 
-  with patch('buffpy.api.OAuth2Session') as mocked_oauth2:
     mocked_session = MagicMock()
+    mocked_session.get.return_value = MOCKED_RESPONSE
 
-    mocked_response = MagicMock()
-    mocked_response.content = json.dumps({'status': 'ok'})
-    mocked_session.get.return_value = mocked_response
+    with patch("buffpy.api.OAuth2Session", return_value=mocked_session):
+        api = API(client_id="1", client_secret="2", access_token="access_token")
+        info = api.info
 
-    mocked_oauth2.return_value = mocked_session
+        expected_url = "https://api.bufferapp.com/1/info/configuration.json"
+        mocked_session.get.assert_called_once_with(url=expected_url)
 
-    api = API(client_id='1', client_secret='2', access_token='access_token')
-    info = api.info
+        assert info.status == "ok"
 
-    url = 'https://api.bufferapp.com/1/info/configuration.json'
-    mocked_session.get.assert_called_once_with(url=url)
-    eq_(info.status, 'ok')
 
-@raises(BuffpyRestException)
 @httpretty.activate
 def test_api_post_parse_buffpy_error():
+    """ Should raise a BuffpyRestException, if the API's response is >= 400. """
 
-    httpretty.register_uri(httpretty.POST, "https://api.bufferapp.com/1/hey",
-                           body="{u'message': u\"Whoops, it looks like you've posted that one recently. Unfortunately, we're not able to post the same thing again so soon!\", u'code': 1025, u'success': False}",
-                           status=400)
+    httpretty.register_uri(httpretty.POST, "https://api.bufferapp.com/1/hey", status=400)
 
-    api = API(client_id='1', client_secret='2', access_token='access_token')
-    api.post(url='hey', data='new=True')
+    with pytest.raises(BuffpyRestException):
+        api = API(client_id="1", client_secret="2", access_token="access_token")
+        api.post(url="hey", data="new=True")

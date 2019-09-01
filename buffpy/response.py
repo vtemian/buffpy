@@ -1,14 +1,24 @@
-def _check_for_inception(root_dict: dict):
+from typing import Any
+
+
+def _check_for_inception(node: Any):
     """
     Used to check if there is a dict in a dict
     """
 
-    return {
-        key: ResponseObject(response)
+    if isinstance(node, list):
+        return [
+            _check_for_inception(item)
+            for item in node
+        ]
 
-        for key, response in root_dict.items()
-        if isinstance(response, dict)
-    }
+    if isinstance(node, dict):
+        return {
+            key: ResponseObject(item) if isinstance(item, dict) else item
+            for key, item in node.items()
+        }
+
+    return node
 
 
 class ResponseObject(dict):
@@ -28,3 +38,7 @@ class ResponseObject(dict):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.__dict__ = _check_for_inception(self)
+
+    def __setattr__(self, item, value):
+        self[item] = value
+        super().__setattr__(item, value)
