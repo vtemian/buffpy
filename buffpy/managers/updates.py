@@ -104,7 +104,8 @@ class Updates(list):
 
     #TODO: Multiple profile posting
     def new(self, text: str, shorten: str = None, now: str = None,
-            top: str = None, media: str = None, when: str = None):
+            top: str = None, media: str = None, when: str = None,
+            service_geolocation_id: str = None, service_geolocation_name: str = None):
         """
             Create one or more new status updates.
         """
@@ -132,6 +133,12 @@ class Updates(list):
             for media_type, media_item in list(media.items()):
                 quoted_media = quote(media_item.encode("utf-8"))
                 post_data.append(media_format.format(media_type, quoted_media))
+
+        if service_geolocation_id:
+            post_data.append("service_geolocation_id={}&".format(service_geolocation_id))
+
+        if service_geolocation_name:
+            post_data.append("service_geolocation_name={}&".format(service_geolocation_name))
 
         response = self.api.post(url=url, data="".join(post_data))
         new_update = Update(api=self.api, raw_response=response["updates"][0])
