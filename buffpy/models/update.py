@@ -43,7 +43,8 @@ class Update(ResponseObject):
 
         return self.__interactions
 
-    def edit(self, text: str, media: dict = None, utc: str = None, now: str = None):
+    def edit(self, text: str, media: dict = None, utc: str = None, now: str = None,
+            service_geolocation_id: str = None, service_geolocation_name: str = None):
         """
             Edit an existing, individual status update.
         """
@@ -63,6 +64,12 @@ class Update(ResponseObject):
 
             for media_type, media_item in list(media.items()):
                 post_data.append(media_format.format(media_type, media_item))
+
+        if service_geolocation_id:
+            post_data.append("service_geolocation_id={}&".format(service_geolocation_id))
+
+        if service_geolocation_name:
+            post_data.append("service_geolocation_name={}&".format(service_geolocation_name))
 
         response = self.api.post(url=url, data="".join(post_data))
 
