@@ -103,7 +103,7 @@ class AuthService(object):
                                           base_url=BASE_URL.format(""))
         self.redirect_uri = redirect_uri
 
-    def create_session(self, access_token: str =None):
+    def create_session(self, access_token: str = None):
         return self.outh_service.get_session(access_token)
 
     def get_access_token(self, auth_code: str):
