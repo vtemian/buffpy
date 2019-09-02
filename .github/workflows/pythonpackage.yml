@@ -25,5 +25,5 @@ jobs:
       run: flake8 buffpy/
     - name: Test with pytest
       run: |
-        pytest
+        pytest -v -x --doctest-modules --ignore=setup.py --cov=buffpy buffpy
         coveralls
