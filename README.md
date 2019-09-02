@@ -2,7 +2,7 @@ buffer-app-python (buffpy)
 ==========================
 Simple to use python library for Buffer App
 
-[![Build Status](https://travis-ci.org/vtemian/buffpy.png?branch=master)](https://travis-ci.org/vtemian/buffpy) [![Coverage Status](https://coveralls.io/repos/vtemian/buffpy/badge.png?branch=master)](https://coveralls.io/r/vtemian/buffpy?branch=master)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fvtemian%2Fbuffpy%2Fbadge&style=flat-square)](https://actions-badge.atrox.dev/vtemian/buffpy/goto) [![Coverage Status](https://coveralls.io/repos/vtemian/buffpy/badge.png?branch=master)](https://coveralls.io/r/vtemian/buffpy?branch=master)
 
 ### ORM`ish
 ------------
