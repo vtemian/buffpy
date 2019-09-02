@@ -17,7 +17,7 @@ requires_list = [
 
 setup(
     name="buffpy",
-    version="3.0",
+    version="3.1.0",
     platforms="any",
     description="Python library for Buffer App",
     author="Vlad Temian",
