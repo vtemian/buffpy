@@ -8,8 +8,6 @@ requires_list = [
     "coverage==4.5.3",
     "httpretty==0.9.6",
     "idna==2.8",
-    "mock==3.0.5",
-    "nose==1.3.7",
     "rauth==0.7.3",
     "requests==2.22.0",
     "six==1.12.0",
@@ -30,5 +28,6 @@ setup(
     install_requires=requires_list,
     classifiers=[
         "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
     ]
 )
