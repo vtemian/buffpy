@@ -72,7 +72,7 @@ class API:
             parsed = parser(response.content)
             error_code, description = (parsed["error_unquotecode"],
                                        parsed["message"])
-        except:
+        except: # noqa
             pass
 
         raise BuffpyRestException(url, http_code, error_code, description)

@@ -102,7 +102,7 @@ class Updates(list):
 
         return self.api.post(url=url, data="".join(post_data))
 
-    #TODO: Multiple profile posting
+    # TODO: Multiple profile posting
     def new(self, text: str, shorten: str = None, now: str = None,
             top: str = None, media: str = None, when: str = None,
             service_geolocation_id: str = None, service_geolocation_name: str = None):

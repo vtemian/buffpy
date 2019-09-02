@@ -1,5 +1,5 @@
 from unittest.mock import MagicMock
-from buffpy.models.update import Update, PATHS
+from buffpy.models.update import Update
 
 
 def test_update_retrieving():

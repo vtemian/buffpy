@@ -44,7 +44,7 @@ class Update(ResponseObject):
         return self.__interactions
 
     def edit(self, text: str, media: dict = None, utc: str = None, now: str = None,
-            service_geolocation_id: str = None, service_geolocation_name: str = None):
+             service_geolocation_id: str = None, service_geolocation_name: str = None):
         """
             Edit an existing, individual status update.
         """

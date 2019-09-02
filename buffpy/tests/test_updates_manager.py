@@ -1,6 +1,5 @@
-import json
 from collections import OrderedDict
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 from buffpy.managers.updates import Updates
 from buffpy.models.update import Update

@@ -1,12 +1,13 @@
 language: python
 python:
   - "3.6"
+  - "3.7"
   - "pypy"
 
 install:
   - pip install -r requirements.txt
   - pip install python-coveralls
 
-script: nosetests --with-coverage --cover-package=buffpy
+script: pytest tests/
 after_success:
   coveralls

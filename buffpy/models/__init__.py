@@ -1,4 +1,4 @@
-from .link import Link
-from .profile import Profile
-from .update import Update
-from .user import User
+from .link import Link  # noqa
+from .profile import Profile  # noqa
+from .update import Update  # noqa
+from .user import User  # noqa
