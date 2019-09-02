@@ -44,7 +44,7 @@ def test_profile_updates():
 
     mocked_api = MagicMock()
 
-    with patch("buffpy.models.profile.Updates") as mocked_updates:
+    with patch("buffpy.managers.updates.Updates") as mocked_updates:
         profile = Profile(api=mocked_api, raw_response={"id": 1})
 
         assert profile.updates
