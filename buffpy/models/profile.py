@@ -1,4 +1,3 @@
-from buffpy.managers.updates import Updates
 from buffpy.response import ResponseObject
 
 
@@ -54,4 +53,5 @@ class Profile(ResponseObject):
 
     @property
     def updates(self):
+        from buffpy.managers.updates import Updates
         return Updates(api=self.api, profile_id=self.id)
