@@ -41,15 +41,15 @@ def test_update_edit():
 
     mocked_api = MagicMock()
     mocked_api.post.return_value = {
-        "update": {"id": 1, "text": "hey!"}
+        "update": {"id": 1, "text": "hey!🏳️‍🌈"}
     }
 
     update = Update(mocked_api, raw_response={"id": 1, "text": "ola!"})
-    new_update = update.edit(text="hey!")
+    new_update = update.edit(text="hey!🏳️‍🌈")
 
-    assert_update = Update(mocked_api, raw_response={"id": 1, "text": "hey!"})
+    assert_update = Update(mocked_api, raw_response={"id": 1, "text": "hey!🏳️‍🌈"})
 
-    post_data = "text=hey!&"
+    post_data = "text=hey!🏳️‍🌈&"
     mocked_api.post.assert_called_once_with(url="updates/1/update.json", data=post_data)
     assert new_update == assert_update
 
@@ -61,16 +61,16 @@ def test_update_edit_params():
 
     mocked_api = MagicMock()
     mocked_api.post.return_value = {
-        "update": {"id": 1, "text": "hey!"}
+        "update": {"id": 1, "text": "hey!🏳️‍🌈"}
     }
 
     update = Update(mocked_api, raw_response={"id": 1, "text": "ola!"})
-    new_update = update.edit(text="hey!", media={"link": "w"},
+    new_update = update.edit(text="hey!🏳️‍🌈", media={"link": "w"},
                              utc="a", now=True)
 
-    assert_update = Update(mocked_api, raw_response={"id": 1, "text": "hey!"})
+    assert_update = Update(mocked_api, raw_response={"id": 1, "text": "hey!🏳️‍🌈"})
 
-    post_data = "text=hey!&now=True&utc=a&media[link]=w&"
+    post_data = "text=hey!🏳️‍🌈&now=True&utc=a&media[link]=w&"
     mocked_api.post.assert_called_once_with(url="updates/1/update.json",
                                             data=post_data)
     assert new_update == assert_update
