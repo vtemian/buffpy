@@ -58,7 +58,7 @@ class Updates(list):
 
         self.__sent = [
             Update(api=self.api, raw_response=update)
-            for update in response.get("response", [])
+            for update in response.get("updates", [])
         ]
 
         return self.__sent
