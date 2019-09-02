@@ -19,7 +19,7 @@ class Update(ResponseObject):
 
     def __init__(self, api, id=None, raw_response=None):
         if id and not raw_response:
-            raw_response = api.get(url=PATHS["GET_UPDATE"] % id)
+            raw_response = api.get(url=PATHS["GET_UPDATE"].format(id))
 
         super().__init__(raw_response)
 
