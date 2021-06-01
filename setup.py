@@ -11,7 +11,7 @@ requires_list = [
     "rauth==0.7.3",
     "requests==2.22.0",
     "six==1.12.0",
-    "urllib3==1.25.2"
+    "urllib3==1.26.5"
 ]
 
 

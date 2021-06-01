@@ -7,4 +7,4 @@ idna==2.8
 rauth==0.7.3
 requests==2.22.0
 six==1.12.0
-urllib3==1.24.2
+urllib3==1.26.5
