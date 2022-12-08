@@ -2,7 +2,7 @@ from setuptools import setup
 
 
 requires_list = [
-    "certifi==2019.3.9",
+    "certifi==2022.12.7",
     "chardet==3.0.4",
     "colorama==0.4.1",
     "coverage==4.5.3",
